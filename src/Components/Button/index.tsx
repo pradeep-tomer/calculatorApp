@@ -6,9 +6,12 @@ import {buttonType} from '../../Common';
 import {styles} from './styles';
 
 const Button = (data: buttonType) => {
-  const {title, style, onPress} = data;
+  const {title, style, disabled, onPress} = data;
   return (
-    <TouchableOpacity onPress={onPress} style={[styles.btnOpacity, style]}>
+    <TouchableOpacity
+      disabled={disabled}
+      onPress={onPress}
+      style={[styles.btnOpacity, style]}>
       <Text style={styles.btnText}>{title}</Text>
     </TouchableOpacity>
   );

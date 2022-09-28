@@ -15,6 +15,5 @@ export const styles = StyleSheet.create({
     fontSize: hp(6),
     textAlign: 'right',
     marginRight: wp(2),
-    backgroundColor: 'green',
   },
 });

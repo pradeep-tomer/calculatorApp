@@ -14,8 +14,8 @@ export const styles = StyleSheet.create({
     borderRadius: wp(3),
   },
   btnText: {
-    color: '#fff',
-    fontSize: hp(2),
+    color: 'orange',
+    fontSize: hp(2.2),
     fontWeight: 'bold',
   },
 });
