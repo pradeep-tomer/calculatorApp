@@ -29,7 +29,7 @@ const StopwatchScreen = () => {
     setLapRecord([]);
     setCount(0);
     setLapStatus(true);
-    setDeg(90);
+    setDeg(84);
   };
   const Lap = () => {
     const record = [];
