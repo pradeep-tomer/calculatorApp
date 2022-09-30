@@ -6,6 +6,8 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import {useDispatch, useSelector} from 'react-redux';
+import Toast from 'react-native-simple-toast';
+import {useNavigation} from '@react-navigation/native';
 
 //user-define Import files
 import {EditText} from '../../Components/TextInput';
@@ -13,9 +15,11 @@ import {styles} from './styles';
 import Button from '../../Components/Button';
 import {addNote} from '../../Redux/Actions/addNoteAction';
 import * as Storage from '../../Services/asyncStoreConfig';
+import {noteValidation} from '../../Validation/Validation';
 
 const AddNoteScreen = () => {
   const dispatch = useDispatch<any>();
+  const navigation = useNavigation<any>();
   const NoteData = useSelector(
     (state: any) => state.addNoteReducer.addNoteData,
   );
@@ -25,10 +29,20 @@ const AddNoteScreen = () => {
   });
 
   const AddNote = () => {
-    const time = moment(Date.now()).format('h:mm A');
-    const data = [{...textField, time}, ...NoteData];
-    Storage.saveData('noteData', JSON.stringify(data));
-    dispatch(addNote([{...textField, time}]));
+    const Valid = noteValidation(textField);
+    if (Valid) {
+      const time = moment(Date.now()).format('h:mm A');
+      const data = [{...textField, time}, ...NoteData];
+      Storage.saveData('noteData', JSON.stringify(data))
+        .then(res => {
+          Toast.show('Note Added Successfully');
+          navigation.navigate('Note');
+        })
+        .catch(err => {
+          Toast.show('Something went wrong');
+        });
+      dispatch(addNote([{...textField, time}]));
+    }
   };
 
   return (

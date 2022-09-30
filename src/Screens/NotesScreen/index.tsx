@@ -10,7 +10,7 @@ import {useSelector} from 'react-redux';
 import {styles} from './styles';
 import NoteItem from '../../Components/NoteItem';
 import {useNavigation} from '@react-navigation/native';
-import {data, noteType} from '../../Common';
+import {datas, noteType} from '../../Common';
 
 const NoteScreen = () => {
   const navigation = useNavigation<any>();
@@ -24,19 +24,22 @@ const NoteScreen = () => {
   }, [NoteData]);
 
   const search = (value: string) => {
+    var data: any = [];
     if (value) {
-      const data = [];
-      for (var i = 0; i <= value.length - 1; i++) {
-        for (var j = i; j < noteRecord.length; j++) {
-          for (var k = 0; k < noteRecord[j]?.title.length; k++) {
-            if (value[i] == noteRecord[j]?.title[k]) {
-              data.push({
-                title: noteRecord[j]?.title,
-                description: noteRecord[j]?.description,
-                time: noteRecord[j]?.time,
-              });
-              break;
-            }
+      for (var i = 0; i < NoteData.length; i++) {
+        var length = 0;
+        for (var j = 0; j < NoteData[i].title.length; j++) {
+          var flag = true;
+          if (value[j] == NoteData[i].title[j]) {
+            flag = false;
+            length++;
+          }
+          if (!flag && value.length <= length) {
+            data.push({
+              title: NoteData[i].title,
+              time: NoteData[i].time,
+              description: NoteData[i].description,
+            });
           }
         }
       }

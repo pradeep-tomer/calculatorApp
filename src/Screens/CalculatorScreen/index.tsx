@@ -5,39 +5,113 @@ import React, {useState, useEffect} from 'react';
 import Row from '../../Components/Row';
 import CalculatorButton from '../../Components/CalculatorButton';
 import {styles} from './styles';
-import calculator, {initialState} from '../../CalculatorLogic';
 
 const CalculatorScreen = () => {
-  const [data, setData] = useState<any>();
+  const [currentValue, setCurrentValue] = useState<any>([0]);
+  const [expression, setExpression] = useState('');
+  const [result, setResult] = useState<number>(0);
 
   useEffect(() => {
-    setData(initialState);
-  }, []);
+    var exp: string = '';
+    currentValue.map((item: any, index: number) => {
+      exp = exp + item;
+    });
+    setExpression(exp);
+  }, [currentValue]);
+
+  const point = () => {};
 
   const HandleTap = (type: string, value?: number | string) => {
-    const res = calculator(type, value, data);
-    setData((prev: any) => ({...prev, ...res}));
+    if (currentValue[0]) {
+      const index = currentValue.length - 1;
+      if (type == 'number') {
+        if (typeof currentValue[index] == 'string') {
+          setCurrentValue((prev: any) => [...prev, value]);
+        } else {
+          const data: any = [];
+          const previousNum = JSON.stringify(currentValue[index]) + value;
+          const num = JSON.parse(previousNum);
+          for (var i = 0; i < currentValue.length - 1; i++) {
+            data.push(currentValue[i]);
+          }
+          data.push(num);
+          setCurrentValue((prev: any) => [...data]);
+        }
+      }
+      if (type == 'operator') {
+        if (typeof currentValue[index] == 'string') {
+          const data: any = [];
+          for (var i = 0; i < currentValue.length - 1; i++) {
+            data.push(currentValue[i]);
+          }
+          data.push(value);
+          setCurrentValue((prev: any) => [...data]);
+        } else {
+          setCurrentValue((prev: any) => [...prev, value]);
+        }
+      }
+    } else {
+      if (type == 'number') setCurrentValue([value]);
+    }
+  };
+  const clear = () => {
+    setCurrentValue([0]);
+    setExpression('');
+    setResult(0);
+  };
+  const Result = () => {
+    var first: number = 0;
+    var operator = '';
+    currentValue.map((item: any, index: number) => {
+      if (index == 0) {
+        first = item;
+      }
+      if (typeof item == 'number') {
+        if (operator) {
+          if (operator == '+') {
+            first = first + item;
+          }
+          if (operator == '×') {
+            first = first * item;
+          }
+          if (operator == '-') {
+            first = first - item;
+          }
+          if (operator == '/') {
+            first = first / item;
+          }
+        }
+      } else {
+        if (item == '+') {
+          operator = '+';
+        }
+        if (item == '-') {
+          operator = '-';
+        }
+        if (item == '×') {
+          operator = '×';
+        }
+        if (item == '/') {
+          operator = '/';
+        }
+      }
+    });
+    setResult(first);
   };
 
+  const posNeg = () => {
+    setResult(result * -1);
+  };
   return (
     <View style={styles.container}>
       <Text style={styles.valueText}>
-        {parseFloat(data?.currentValue).toLocaleString()}
+        {expression}
+        {/* {parseFloat(data?.currentValue).toLocaleString()} */}
       </Text>
-      <Text style={styles.valueText}>{data?.currentValue}</Text>
+      {result ? <Text style={styles.valueText}>{result}</Text> : null}
       <Row>
-        <CalculatorButton
-          title="AC"
-          onPress={() => {
-            HandleTap('clear');
-          }}
-        />
-        <CalculatorButton
-          title="+/-"
-          onPress={() => {
-            HandleTap('posneg');
-          }}
-        />
+        <CalculatorButton title="AC" onPress={clear} />
+        <CalculatorButton title="+/-" onPress={posNeg} />
         {/* <CalculatorButton title={`+${'\n'}-`} onPress={() => {}} /> */}
         <CalculatorButton
           title="%"
@@ -74,7 +148,7 @@ const CalculatorScreen = () => {
         <CalculatorButton
           title="×"
           onPress={() => {
-            HandleTap('operator', '*');
+            HandleTap('operator', '×');
           }}
         />
       </Row>
@@ -138,18 +212,8 @@ const CalculatorScreen = () => {
           }}
         />
         <View style={{flex: 1, flexDirection: 'row'}}>
-          <CalculatorButton
-            title="."
-            onPress={() => {
-              HandleTap('operator', '.');
-            }}
-          />
-          <CalculatorButton
-            title="="
-            onPress={() => {
-              HandleTap('equal', '=');
-            }}
-          />
+          <CalculatorButton title="." onPress={point} />
+          <CalculatorButton title="=" onPress={Result} />
         </View>
       </Row>
     </View>

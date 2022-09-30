@@ -25,7 +25,7 @@ export const styles = StyleSheet.create({
     width: wp(20),
     height: hp(10),
     borderRadius: wp(10),
-    backgroundColor: '#fff',
+    backgroundColor: 'green',
     justifyContent: 'center',
     alignItems: 'center',
     bottom: wp(3),
