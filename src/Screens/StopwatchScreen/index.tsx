@@ -78,7 +78,8 @@ const StopwatchScreen = () => {
         </ScrollView>
       </View>
       <View style={styles.bottomBtnView}>
-        <Button style={styles.btn} title="CLEAR" onPress={Clear} />
+        <Button 
+          disabled={lapStatus} style={styles.btn} title="CLEAR" onPress={Clear} />
         <Button
           style={styles.btn}
           disabled={lapStatus}

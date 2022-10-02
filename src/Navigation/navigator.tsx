@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 
 //user-define Import files
 import HomeScreen from '../Screens/HomeScreen';
@@ -19,8 +19,10 @@ const Navigator = () => {
   useEffect(() => {
     Storage.getData('noteData')
       .then((res: any) => {
-        const data = JSON.parse(res);
-        dispatch(addNote(data));
+        if (res) {
+          const data = JSON.parse(res);
+          dispatch(addNote(data));
+        }
       })
       .catch(err => {
         console.log('Error: ', err);

@@ -10,6 +10,8 @@ const CalculatorScreen = () => {
   const [currentValue, setCurrentValue] = useState<any>([0]);
   const [expression, setExpression] = useState('');
   const [result, setResult] = useState<number>(0);
+  console.log('Current value: ', currentValue);
+  console.log('Result: ', result);
 
   useEffect(() => {
     var exp: string = '';
@@ -19,14 +21,49 @@ const CalculatorScreen = () => {
     setExpression(exp);
   }, [currentValue]);
 
-  const point = () => {};
+  const point = () => {
+    const index = currentValue.length - 1;
+    if (typeof currentValue[index] == 'string') {
+      if (
+        currentValue[index] == '+' ||
+        currentValue[index] == '-' ||
+        currentValue[index] == '×' ||
+        currentValue[index] == '/'
+      ) {
+        setCurrentValue((prev: any) => [...prev, "0."]);
+      }
+    } else {
+      if (Number.isInteger(currentValue[index])) {
+        const previousNum = JSON.stringify(currentValue[index]) + '.';
+        const data: any = [];
+        for (var i = 0; i < currentValue.length - 1; i++) {
+          data.push(currentValue[i]);
+        }
+        data.push(previousNum);
+        setCurrentValue((prev: any) => [...data]);
+      }
+    }
+  };
 
   const HandleTap = (type: string, value?: number | string) => {
     if (currentValue[0]) {
       const index = currentValue.length - 1;
       if (type == 'number') {
         if (typeof currentValue[index] == 'string') {
-          setCurrentValue((prev: any) => [...prev, value]);
+          if (
+            currentValue[index] != '+' &&
+            currentValue[index] != '-' &&
+            currentValue[index] != '×' &&
+            currentValue[index] != '/'
+          ) {
+            const data = [];
+            const n = JSON.parse(currentValue[index] + value);
+            for (var i = 0; i < currentValue.length - 1; i++) {
+              data.push(currentValue[i]);
+            }
+            data.push(n);
+            setCurrentValue([...data]);
+          } else setCurrentValue((prev: any) => [...prev, value]);
         } else {
           const data: any = [];
           const previousNum = JSON.stringify(currentValue[index]) + value;
@@ -102,6 +139,9 @@ const CalculatorScreen = () => {
   const posNeg = () => {
     setResult(result * -1);
   };
+  const percentage=()=>{
+    console.log("Percentage Press")
+  }
   return (
     <View style={styles.container}>
       <Text style={styles.valueText}>
@@ -115,9 +155,7 @@ const CalculatorScreen = () => {
         {/* <CalculatorButton title={`+${'\n'}-`} onPress={() => {}} /> */}
         <CalculatorButton
           title="%"
-          onPress={() => {
-            HandleTap('percentage');
-          }}
+          onPress={percentage}
         />
         <CalculatorButton
           title="/"

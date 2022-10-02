@@ -76,7 +76,6 @@ export const styles = StyleSheet.create({
 
 export const options = {
   container: {
-    width: wp(45),
     alignItems: 'center',
   },
   text: {
