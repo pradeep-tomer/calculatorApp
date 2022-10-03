@@ -11,8 +11,8 @@ export const styles = StyleSheet.create({
     marginHorizontal: wp(0),
   },
   BtnText: {
-    color: 'orange',
-    fontSize: hp(2.2),
+    color: '#DE820D',
+    fontSize: hp(2.5),
     fontWeight: 'bold',
   },
   bottomBtnView: {
@@ -23,7 +23,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   lapCountText: {
-    color: 'orange',
+    color: 'rgb(197,157,89)',
     fontWeight: 'bold',
     fontSize: hp(2.5),
   },
@@ -32,20 +32,23 @@ export const styles = StyleSheet.create({
     marginHorizontal: wp(3.5),
     height: hp(10),
     alignItems: 'center',
+    marginVertical:hp(0.5),
+    borderBottomWidth:StyleSheet.hairlineWidth,
+    borderColor:'grey'
   },
   lapCount: {
     height: hp(5),
-    width: wp(10),
+    width: wp(9.5),
     borderRadius: wp(5),
     alignItems: 'center',
     justifyContent: 'center',
-    borderWidth: wp(0.6),
-    borderColor: 'orange',
+    borderWidth: wp(0.7),
+    borderColor: 'rgb(197,157,89)',
   },
   lapTimeText: {
     flex: 1,
     textAlign: 'right',
-    color: 'black',
+    color: 'rgb(77,71,67)',
     fontSize: hp(4),
   },
   btnOpacity: {
@@ -58,18 +61,18 @@ export const styles = StyleSheet.create({
   },
   clockView: {
     marginTop: hp(8),
-    height: hp(21),
-    width: wp(40),
+    height: hp(16),
+    width: wp(30),
     alignSelf: 'center',
-    borderRadius: wp(20),
+    borderRadius: wp(15),
     justifyContent: 'center',
     borderWidth: wp(1.5),
-    borderColor: 'orange',
+    borderColor: 'rgb(183,129,45)',
   },
   clockInnerView: {
-    backgroundColor: 'orange',
+    backgroundColor: 'rgb(183,129,45)',
     height: hp(1),
-    width: wp(18),
+    width: wp(15),
     borderRadius: wp(1),
   },
 });
@@ -79,8 +82,8 @@ export const options = {
     alignItems: 'center',
   },
   text: {
-    fontSize: hp(6),
-    color: 'black',
+    fontSize: hp(9),
+    color: 'rgb(77,71,67)',
     fontWeight: 'bold',
   },
 };

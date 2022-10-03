@@ -4,7 +4,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {Stopwatch} from 'react-native-stopwatch-timer';
+import {Stopwatch, Timer} from 'react-native-stopwatch-timer';
 
 //user-define Import files
 import Button from '../../Components/Button';
@@ -17,6 +17,7 @@ const StopwatchScreen = () => {
   const [lapRecord, setLapRecord] = useState<any>([]);
   const [count, setCount] = useState<number>(0);
   const [lapStatus, setLapStatus] = useState<boolean>(true);
+  const [clearStatus, setClearStatus] = useState<boolean>(true);
   const [deg, setDeg] = useState(78);
 
   useEffect(() => {
@@ -30,6 +31,7 @@ const StopwatchScreen = () => {
     setCount(0);
     setLapStatus(true);
     setDeg(84);
+    setClearStatus(true);
   };
   const Lap = () => {
     const record = [];
@@ -78,8 +80,12 @@ const StopwatchScreen = () => {
         </ScrollView>
       </View>
       <View style={styles.bottomBtnView}>
-        <Button 
-          disabled={lapStatus} style={styles.btn} title="CLEAR" onPress={Clear} />
+        <Button
+          disabled={clearStatus}
+          style={styles.btn}
+          title="CLEAR"
+          onPress={Clear}
+        />
         <Button
           style={styles.btn}
           disabled={lapStatus}
@@ -92,6 +98,7 @@ const StopwatchScreen = () => {
             setIsStopwatchStart(!isStopwatchStart);
             setResetStopwatch(false);
             setLapStatus(!lapStatus);
+            setClearStatus(false);
           }}>
           <Text style={styles.BtnText}>
             {!isStopwatchStart ? 'START' : 'STOP'}

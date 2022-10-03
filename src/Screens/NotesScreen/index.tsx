@@ -30,9 +30,11 @@ const NoteScreen = () => {
         var length = 0;
         for (var j = 0; j < NoteData[i].title.length; j++) {
           var flag = true;
-          if (value[j] == NoteData[i].title[j]) {
-            flag = false;
-            length++;
+          if (value[j]) {
+            if (value[j].toLowerCase() == NoteData[i].title[j].toLowerCase()) {
+              flag = false;
+              length++;
+            }
           }
           if (!flag && value.length <= length) {
             data.push({
@@ -53,8 +55,9 @@ const NoteScreen = () => {
     <View style={styles.container}>
       <TextInput
         style={styles.inputText}
-        placeholder="Search note..."
+        placeholder="Search note.."
         onChangeText={search}
+        placeholderTextColor="rgb(121,120,121)"
       />
       <View style={{flex: 1}}>
         <FlatList

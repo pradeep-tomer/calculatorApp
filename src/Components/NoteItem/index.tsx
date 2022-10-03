@@ -28,7 +28,7 @@ const NoteItem = (data: any) => {
         style={[styles.itemText, {marginVertical: hp(1), textAlign: 'center'}]}>
         {item?.title}
       </Text>
-      <Text numberOfLines={8} style={styles.itemText}>
+      <Text numberOfLines={6} style={[styles.itemText, {fontSize: hp(2.2)}]}>
         {item?.description}
       </Text>
     </TouchableOpacity>

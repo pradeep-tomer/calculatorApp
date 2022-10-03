@@ -13,7 +13,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     borderBottomWidth: wp(0.6),
     borderRightWidth: wp(0.6),
-    borderColor: 'grey',
+    borderColor: '#C6C6C6',
   },
   text: {
     color: 'black',

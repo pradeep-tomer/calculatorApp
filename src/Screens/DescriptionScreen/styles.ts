@@ -10,7 +10,7 @@ export const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   noteView: {
-    backgroundColor: 'orange',
+    backgroundColor: 'rgb(177,142,33)',
     marginHorizontal: wp(2),
     borderRadius: wp(6),
     padding: wp(2),

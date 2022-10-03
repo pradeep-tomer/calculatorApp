@@ -16,9 +16,10 @@ export const styles = StyleSheet.create({
     paddingLeft: wp(4),
     borderWidth: wp(0.5),
     borderColor: 'grey',
-    fontSize: hp(2.5),
+    fontSize: hp(3),
     height: hp(8),
     fontWeight: 'bold',
+    color:'black'
   },
   addBtn: {
     position: 'absolute',

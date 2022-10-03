@@ -24,6 +24,7 @@ export const styles = StyleSheet.create({
   inputField: {
     textAlignVertical: 'top',
     height: hp(20),
+    paddingLeft:wp(3),
     backgroundColor: 'white',
     marginHorizontal: wp(6),
     borderRadius: wp(4),

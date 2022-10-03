@@ -1,24 +1,27 @@
-import {View, Text} from 'react-native';
+import {View, TouchableOpacity, Text} from 'react-native';
 import React, {useState, useEffect} from 'react';
 
 //user-define import files
 import Row from '../../Components/Row';
 import CalculatorButton from '../../Components/CalculatorButton';
 import {styles} from './styles';
+import {convertToReArragedValue} from '../../Common/calculatorLogic';
 
 const CalculatorScreen = () => {
-  const [currentValue, setCurrentValue] = useState<any>([0]);
+  const [currentValue, setCurrentValue] = useState<any>([null]);
   const [expression, setExpression] = useState('');
-  const [result, setResult] = useState<number>(0);
+  const [result, setResult] = useState<number>(-1);
   console.log('Current value: ', currentValue);
-  console.log('Result: ', result);
+  // console.log('Result: ', result);
 
   useEffect(() => {
     var exp: string = '';
-    currentValue.map((item: any, index: number) => {
-      exp = exp + item;
-    });
-    setExpression(exp);
+    if (currentValue[0] != null) {
+      currentValue.map((item: any, index: number) => {
+        exp = exp + item;
+      });
+      setExpression(exp);
+    } else setExpression('0');
   }, [currentValue]);
 
   const point = () => {
@@ -27,10 +30,11 @@ const CalculatorScreen = () => {
       if (
         currentValue[index] == '+' ||
         currentValue[index] == '-' ||
-        currentValue[index] == '×' ||
-        currentValue[index] == '/'
+        currentValue[index] == '*' ||
+        currentValue[index] == '/' ||
+        currentValue[index] == '%'
       ) {
-        setCurrentValue((prev: any) => [...prev, "0."]);
+        setCurrentValue((prev: any) => [...prev, '0.']);
       }
     } else {
       if (Number.isInteger(currentValue[index])) {
@@ -46,14 +50,14 @@ const CalculatorScreen = () => {
   };
 
   const HandleTap = (type: string, value?: number | string) => {
-    if (currentValue[0]) {
+    if (currentValue[0] != null) {
       const index = currentValue.length - 1;
       if (type == 'number') {
         if (typeof currentValue[index] == 'string') {
           if (
             currentValue[index] != '+' &&
             currentValue[index] != '-' &&
-            currentValue[index] != '×' &&
+            currentValue[index] != '*' &&
             currentValue[index] != '/'
           ) {
             const data = [];
@@ -89,74 +93,53 @@ const CalculatorScreen = () => {
       }
     } else {
       if (type == 'number') setCurrentValue([value]);
+      if (type == 'operator' && value == '-')
+        setCurrentValue((prev: any) => ['0', value]);
     }
   };
+
   const clear = () => {
-    setCurrentValue([0]);
+    setCurrentValue([null]);
     setExpression('');
-    setResult(0);
+    setResult(-1);
   };
-  const Result = () => {
-    var first: number = 0;
-    var operator = '';
-    currentValue.map((item: any, index: number) => {
-      if (index == 0) {
-        first = item;
-      }
-      if (typeof item == 'number') {
-        if (operator) {
-          if (operator == '+') {
-            first = first + item;
-          }
-          if (operator == '×') {
-            first = first * item;
-          }
-          if (operator == '-') {
-            first = first - item;
-          }
-          if (operator == '/') {
-            first = first / item;
-          }
-        }
-      } else {
-        if (item == '+') {
-          operator = '+';
-        }
-        if (item == '-') {
-          operator = '-';
-        }
-        if (item == '×') {
-          operator = '×';
-        }
-        if (item == '/') {
-          operator = '/';
-        }
-      }
+
+  const equal = () => {
+    var exp: string = '';
+    currentValue.map((item: number | string, index: number) => {
+      exp = exp + item;
     });
-    setResult(first);
+    const res = convertToReArragedValue(exp);
+    setResult(res);
+  };
+
+  const percent = () => {
+    // var exp: string = '';
+    // currentValue.map((item: number | string, index: number) => {
+    //   exp = exp + item;
+    // });
+    // const res = convertToReArragedValue(exp);
+    console.log('Percentage Result: ');
   };
 
   const posNeg = () => {
     setResult(result * -1);
   };
-  const percentage=()=>{
-    console.log("Percentage Press")
-  }
+
   return (
     <View style={styles.container}>
       <Text style={styles.valueText}>
         {expression}
         {/* {parseFloat(data?.currentValue).toLocaleString()} */}
       </Text>
-      {result ? <Text style={styles.valueText}>{result}</Text> : null}
+      {!(result == -1) ? (
+        <Text style={styles.valueText}>{result.toFixed(4)}</Text>
+      ) : // <Text style={styles.valueText}>{result}</Text>
+      null}
       <Row>
         <CalculatorButton title="AC" onPress={clear} />
-        <CalculatorButton title="+/-" onPress={posNeg} />
-        {/* <CalculatorButton title={`+${'\n'}-`} onPress={() => {}} /> */}
-        <CalculatorButton
-          title="%"
-          onPress={percentage}
-        />
+        <CalculatorButton title="±" onPress={posNeg} />
+        <CalculatorButton title="%" onPress={percent} />
         <CalculatorButton
           title="/"
           onPress={() => {
@@ -186,7 +169,7 @@ const CalculatorScreen = () => {
         <CalculatorButton
           title="×"
           onPress={() => {
-            HandleTap('operator', '×');
+            HandleTap('operator', '*');
           }}
         />
       </Row>
@@ -251,7 +234,11 @@ const CalculatorScreen = () => {
         />
         <View style={{flex: 1, flexDirection: 'row'}}>
           <CalculatorButton title="." onPress={point} />
-          <CalculatorButton title="=" onPress={Result} />
+          <CalculatorButton
+            style={{backgroundColor: '#eab676'}}
+            title="="
+            onPress={equal}
+          />
         </View>
       </Row>
     </View>

@@ -19,7 +19,7 @@ export const styles = StyleSheet.create({
     flex: 1,
     fontStyle: 'normal',
     fontSize: hp(2.3),
-    fontWeight: '400',
+    paddingLeft:wp(3),
     height: hp(20),
   },
 });
