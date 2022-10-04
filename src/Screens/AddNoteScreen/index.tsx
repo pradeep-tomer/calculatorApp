@@ -1,6 +1,11 @@
-import {View, Text, TextInput} from 'react-native';
-import React, {useState} from 'react';
-import moment from 'moment';
+import {
+  View,
+  BackHandler,
+  TextInput,
+  Image,
+  TouchableOpacity,
+} from 'react-native';
+import React, {useState, useEffect} from 'react';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -10,12 +15,13 @@ import Toast from 'react-native-simple-toast';
 import {useNavigation} from '@react-navigation/native';
 
 //user-define Import files
-import {EditText} from '../../Components/TextInput';
 import {styles} from './styles';
-import Button from '../../Components/Button';
 import {addNote} from '../../Redux/Actions/addNoteAction';
 import * as Storage from '../../Services/asyncStoreConfig';
 import {noteValidation} from '../../Validation/Validation';
+import {Month} from '../../Common/Month';
+import {back} from '../../Utils/images';
+import {noteFieldType} from '../../Common';
 
 const AddNoteScreen = () => {
   const dispatch = useDispatch<any>();
@@ -23,48 +29,79 @@ const AddNoteScreen = () => {
   const NoteData = useSelector(
     (state: any) => state.addNoteReducer.addNoteData,
   );
-  const [textField, setTextFields] = useState<object>({
+  const [textField, setTextFields] = useState<noteFieldType>({
     title: '',
     description: '',
   });
 
   const AddNote = () => {
+    var day = new Date().getDate();
+    var month = Month();
+    const date = day + month;
     const Valid = noteValidation(textField);
+    const titleValid = noteValidation({title: textField?.title});
+    const descriptionValid = noteValidation({title: textField?.description});
+
     if (Valid) {
-      const time = moment(Date.now()).format('h:mm A');
-      const data = [{...textField, time}, ...NoteData];
+      const data = [{...textField, date}, ...NoteData];
       Storage.saveData('noteData', JSON.stringify(data))
         .then(res => {
           Toast.show('Note Added Successfully');
+          setTextFields((prev: object) => ({}));
           navigation.navigate('Note');
         })
         .catch(err => {
           Toast.show('Something went wrong');
         });
-      dispatch(addNote([{...textField, time}]));
+      dispatch(addNote([{...textField, date}]));
+      return true;
+    } else {
+      navigation.navigate('Note');
+      return true;
     }
   };
 
+  const backHandler = BackHandler.addEventListener(
+    'hardwareBackPress',
+    AddNote,
+  );
+  backHandler.remove();
+
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      AddNote,
+    );
+    return () => backHandler.remove();
+  }, [textField]);
+
   return (
     <View style={styles.container}>
-      <Text style={styles.headerText}>Add Notes</Text>
-      <Text style={styles.inputLabel}>Title</Text>
-      <EditText
-        placeholder="Enter title"
-        onChangeText={(value: string) =>
-          setTextFields((prev: object) => ({...prev, title: value}))
-        }
-      />
-      <Text style={styles.inputLabel}>Description</Text>
-      <TextInput
-        multiline={true}
-        placeholder="Enter Description"
-        onChangeText={(value: string) =>
-          setTextFields((prev: object) => ({...prev, description: value}))
-        }
-        style={styles.inputField}
-      />
-      <Button style={{marginTop: hp(3)}} title="Add Note" onPress={AddNote} />
+      <TouchableOpacity
+        onPress={() => {
+          AddNote();
+        }}
+        style={styles.backBtnOpacity}>
+        <Image source={back} style={styles.backIcon} />
+      </TouchableOpacity>
+      <View style={{marginHorizontal: wp(4), marginTop: hp(4)}}>
+        <TextInput
+          multiline={true}
+          style={{fontSize: hp(4)}}
+          placeholder="Title"
+          onChangeText={(value: string) =>
+            setTextFields((prev: object) => ({...prev, title: value}))
+          }
+        />
+        <TextInput
+          multiline={true}
+          placeholder="Note"
+          onChangeText={(value: string) =>
+            setTextFields((prev: object) => ({...prev, description: value}))
+          }
+          style={styles.inputField}
+        />
+      </View>
     </View>
   );
 };

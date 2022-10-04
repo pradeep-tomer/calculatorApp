@@ -23,14 +23,14 @@ export const styles = StyleSheet.create({
   },
   addBtn: {
     position: 'absolute',
-    width: wp(20),
-    height: hp(10),
-    borderRadius: wp(10),
+    width: wp(18),
+    height: hp(9),
+    borderRadius: wp(9),
     backgroundColor: 'green',
     justifyContent: 'center',
     alignItems: 'center',
     bottom: wp(3),
-    right: '2%',
+    right: '5%',
     zIndex: 999,
   },
 });

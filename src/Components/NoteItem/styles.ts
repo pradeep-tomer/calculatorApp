@@ -14,9 +14,9 @@ export const styles = StyleSheet.create({
     width: '46%',
     height: hp(30),
     marginHorizontal: wp(2),
-    marginVertical: hp(1),
+    marginVertical: hp(0.8),
     padding: wp(1),
-    borderRadius: wp(2.5),
+    borderRadius: wp(4),
   },
   itemText: {
     color: '#fff',

@@ -16,7 +16,8 @@ export const styles = StyleSheet.create({
     borderColor: '#C6C6C6',
   },
   text: {
-    color: 'black',
+    color: '#656666',
     fontSize: hp(3.5),
+    fontWeight:'bold'
   },
 });

@@ -11,7 +11,7 @@ const DescriptionScreen = ({route}: any) => {
     <View style={styles.container}>
       <View style={styles.noteView}>
         <Text style={[styles.text, {textAlign: 'right'}]}>
-          {route?.params?.item?.time}
+          {route?.params?.item?.date}
         </Text>
         <Text style={[styles.text, {textAlign: 'center'}]}>
           {route?.params?.item?.title}

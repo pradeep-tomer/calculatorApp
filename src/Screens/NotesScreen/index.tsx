@@ -10,7 +10,7 @@ import {useSelector} from 'react-redux';
 import {styles} from './styles';
 import NoteItem from '../../Components/NoteItem';
 import {useNavigation} from '@react-navigation/native';
-import {datas, noteType} from '../../Common';
+import {noteType} from '../../Common';
 
 const NoteScreen = () => {
   const navigation = useNavigation<any>();

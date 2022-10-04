@@ -16,4 +16,14 @@ export const styles = StyleSheet.create({
     textAlign: 'right',
     marginRight: wp(2),
   },
+  btnOpacity: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  btnText: {
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: hp(3.5),
+  },
 });

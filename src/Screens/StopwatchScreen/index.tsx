@@ -4,7 +4,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {Stopwatch, Timer} from 'react-native-stopwatch-timer';
+import {Stopwatch} from 'react-native-stopwatch-timer';
 
 //user-define Import files
 import Button from '../../Components/Button';

@@ -7,5 +7,5 @@ const ValidTextField = (props: object) => {
 
 export const noteValidation = (data: object) => {
   if (ValidTextField(data)) return true;
-  else return Toast.show('Please Enter Note');
+  else return false;
 };

@@ -11,7 +11,7 @@ export const styles = StyleSheet.create({
     marginHorizontal: wp(0),
   },
   BtnText: {
-    color: '#DE820D',
+    color: '#C58523',
     fontSize: hp(2.5),
     fontWeight: 'bold',
   },
@@ -34,7 +34,7 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     marginVertical:hp(0.5),
     borderBottomWidth:StyleSheet.hairlineWidth,
-    borderColor:'grey'
+    borderColor:'#F8F2EA'
   },
   lapCount: {
     height: hp(5),
@@ -83,7 +83,7 @@ export const options = {
   },
   text: {
     fontSize: hp(9),
-    color: 'rgb(77,71,67)',
+    color: '#4B4640',
     fontWeight: 'bold',
   },
 };

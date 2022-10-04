@@ -1,5 +1,6 @@
 import {View, TouchableOpacity, Text} from 'react-native';
 import React, {useState, useEffect} from 'react';
+import LinearGradient from 'react-native-linear-gradient';
 
 //user-define import files
 import Row from '../../Components/Row';
@@ -11,13 +12,13 @@ const CalculatorScreen = () => {
   const [currentValue, setCurrentValue] = useState<any>([null]);
   const [expression, setExpression] = useState('');
   const [result, setResult] = useState<number>(-1);
-  console.log('Current value: ', currentValue);
+  // console.log('Current value: ', currentValue);
   // console.log('Result: ', result);
 
   useEffect(() => {
     var exp: string = '';
     if (currentValue[0] != null) {
-      currentValue.map((item: any, index: number) => {
+      currentValue.map((item: string | number, index: number) => {
         exp = exp + item;
       });
       setExpression(exp);
@@ -34,7 +35,7 @@ const CalculatorScreen = () => {
         currentValue[index] == '/' ||
         currentValue[index] == '%'
       ) {
-        setCurrentValue((prev: any) => [...prev, '0.']);
+        setCurrentValue((prev: string) => [...prev, '0.']);
       }
     } else {
       if (Number.isInteger(currentValue[index])) {
@@ -69,6 +70,10 @@ const CalculatorScreen = () => {
             setCurrentValue([...data]);
           } else setCurrentValue((prev: any) => [...prev, value]);
         } else {
+          if (currentValue[0] == 0) {
+            setCurrentValue([value]);
+            return;
+          }
           const data: any = [];
           const previousNum = JSON.stringify(currentValue[index]) + value;
           const num = JSON.parse(previousNum);
@@ -114,12 +119,13 @@ const CalculatorScreen = () => {
   };
 
   const percent = () => {
-    // var exp: string = '';
-    // currentValue.map((item: number | string, index: number) => {
-    //   exp = exp + item;
-    // });
-    // const res = convertToReArragedValue(exp);
-    console.log('Percentage Result: ');
+    // const res = currentValue[0] / 100;
+    // console.log('Current value: info: ', res);
+    // setResult(res);
+    // if (currentValue.length == 2) {
+    //   const res = currentValue[0] / 100;
+    //   console.log('Current value: info: ', res);
+    // }
   };
 
   const posNeg = () => {
@@ -128,14 +134,22 @@ const CalculatorScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.valueText}>
-        {expression}
-        {/* {parseFloat(data?.currentValue).toLocaleString()} */}
-      </Text>
-      {!(result == -1) ? (
-        <Text style={styles.valueText}>{result.toFixed(4)}</Text>
-      ) : // <Text style={styles.valueText}>{result}</Text>
-      null}
+      <LinearGradient
+        start={{x: 0.1, y: 0.75}}
+        colors={['#DDA550', '#CA9F5D', '#BD9961']}
+        style={{flex: 1, justifyContent: 'flex-end'}}>
+        <Text style={styles.valueText}>
+          {expression}
+          {/* {parseFloat(data?.currentValue).toLocaleString()} */}
+        </Text>
+        {!(result == -1) ? (
+          // <Text style={styles.valueText}>{result.toFixed(4)}</Text>
+          <Text style={styles.valueText}>
+            {parseFloat(result).toLocaleString()}
+          </Text>
+        ) : null}
+      </LinearGradient>
+
       <Row>
         <CalculatorButton title="AC" onPress={clear} />
         <CalculatorButton title="±" onPress={posNeg} />
@@ -234,11 +248,14 @@ const CalculatorScreen = () => {
         />
         <View style={{flex: 1, flexDirection: 'row'}}>
           <CalculatorButton title="." onPress={point} />
-          <CalculatorButton
-            style={{backgroundColor: '#eab676'}}
-            title="="
-            onPress={equal}
-          />
+          <LinearGradient
+            style={{flex: 1}}
+            start={{x: 0, y: 0.75}}
+            colors={['#DDA550', '#CA9F5D', '#BD9961']}>
+            <TouchableOpacity onPress={equal} style={styles.btnOpacity}>
+              <Text style={styles.btnText}>=</Text>
+            </TouchableOpacity>
+          </LinearGradient>
         </View>
       </Row>
     </View>

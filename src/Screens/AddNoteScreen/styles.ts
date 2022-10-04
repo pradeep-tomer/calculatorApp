@@ -23,10 +23,19 @@ export const styles = StyleSheet.create({
   },
   inputField: {
     textAlignVertical: 'top',
-    height: hp(20),
-    paddingLeft:wp(3),
-    backgroundColor: 'white',
-    marginHorizontal: wp(6),
-    borderRadius: wp(4),
+    paddingLeft: wp(3),
+    fontSize: hp(3),
+  },
+  backIcon: {
+    height: hp(6),
+    resizeMode: 'contain',
+    width: wp(10),
+  },
+  backBtnOpacity: {
+    height: hp(6),
+    justifyContent: 'center',
+    marginTop:hp(3),
+    width:wp(10),
+    marginLeft:wp(3)
   },
 });

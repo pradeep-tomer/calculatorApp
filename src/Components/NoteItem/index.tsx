@@ -23,12 +23,14 @@ const NoteItem = (data: any) => {
       onPress={() => {
         notePress(item);
       }}>
-      <Text style={[styles.itemText, {textAlign: 'right'}]}>{item?.time}</Text>
+      <Text style={[styles.itemText, {textAlign: 'right', marginTop: hp(2)}]}>
+        {item?.date}
+      </Text>
       <Text
         style={[styles.itemText, {marginVertical: hp(1), textAlign: 'center'}]}>
         {item?.title}
       </Text>
-      <Text numberOfLines={6} style={[styles.itemText, {fontSize: hp(2.2)}]}>
+      <Text numberOfLines={5} style={[styles.itemText, {fontSize: hp(2.2)}]}>
         {item?.description}
       </Text>
     </TouchableOpacity>
