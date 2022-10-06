@@ -23,7 +23,6 @@ export const styles = StyleSheet.create({
   },
   inputField: {
     textAlignVertical: 'top',
-    paddingLeft: wp(3),
     fontSize: hp(3),
   },
   backIcon: {

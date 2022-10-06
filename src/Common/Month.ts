@@ -1,5 +1,5 @@
-export const Month = () => {
-    switch (new Date().getMonth() + 1) {
+export const Month = (num:number) => {
+    switch (num) {
       case 1:
         return ' Jan';
       case 2:

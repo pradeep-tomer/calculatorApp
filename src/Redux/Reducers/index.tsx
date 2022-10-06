@@ -1,10 +1,10 @@
-// this. File combines all reducer and export them
 import {combineReducers} from 'redux';
 
-import {addNoteReducer} from './AddNoteReducer';
+//user-define files
+import {getNoteReducer} from './getNoteReducer';
 
 const appReducer = combineReducers({
-  addNoteReducer,
+  getNoteReducer,
 });
 
 export default appReducer;

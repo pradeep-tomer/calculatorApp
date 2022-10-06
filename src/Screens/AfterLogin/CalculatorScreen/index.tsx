@@ -3,15 +3,15 @@ import React, {useState, useEffect} from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 
 //user-define import files
-import Row from '../../Components/Row';
-import CalculatorButton from '../../Components/CalculatorButton';
+import Row from '../../../Components/Row';
+import CalculatorButton from '../../../Components/CalculatorButton';
 import {styles} from './styles';
-import {convertToReArragedValue} from '../../Common/calculatorLogic';
+import {convertToReArragedValue} from '../../../Common/calculatorLogic';
 
 const CalculatorScreen = () => {
   const [currentValue, setCurrentValue] = useState<any>([null]);
   const [expression, setExpression] = useState('');
-  const [result, setResult] = useState<number>(-1);
+  const [result, setResult] = useState<any>(null);
   // console.log('Current value: ', currentValue);
   // console.log('Result: ', result);
 
@@ -46,6 +46,10 @@ const CalculatorScreen = () => {
         }
         data.push(previousNum);
         setCurrentValue((prev: any) => [...data]);
+      } else {
+        if (currentValue[0] == null) {
+          setCurrentValue((prev: any) => ['0.']);
+        }
       }
     }
   };
@@ -59,7 +63,8 @@ const CalculatorScreen = () => {
             currentValue[index] != '+' &&
             currentValue[index] != '-' &&
             currentValue[index] != '*' &&
-            currentValue[index] != '/'
+            currentValue[index] != '/' &&
+            currentValue[index] != '%'
           ) {
             const data = [];
             const n = JSON.parse(currentValue[index] + value);
@@ -106,7 +111,7 @@ const CalculatorScreen = () => {
   const clear = () => {
     setCurrentValue([null]);
     setExpression('');
-    setResult(-1);
+    setResult(null);
   };
 
   const equal = () => {
@@ -119,17 +124,15 @@ const CalculatorScreen = () => {
   };
 
   const percent = () => {
-    // const res = currentValue[0] / 100;
-    // console.log('Current value: info: ', res);
-    // setResult(res);
-    // if (currentValue.length == 2) {
-    //   const res = currentValue[0] / 100;
-    //   console.log('Current value: info: ', res);
-    // }
+    if (currentValue.length <= 2) {
+      setCurrentValue((prev: any) => [...prev, '%']);
+      const res = currentValue[0] / 100;
+      setResult(res);
+    }
   };
 
   const posNeg = () => {
-    setResult(result * -1);
+    if (result != null) setResult(result * -1);
   };
 
   return (
@@ -142,7 +145,7 @@ const CalculatorScreen = () => {
           {expression}
           {/* {parseFloat(data?.currentValue).toLocaleString()} */}
         </Text>
-        {!(result == -1) ? (
+        {!(result == null) ? (
           // <Text style={styles.valueText}>{result.toFixed(4)}</Text>
           <Text style={styles.valueText}>
             {parseFloat(result).toLocaleString()}

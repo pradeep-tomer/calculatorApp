@@ -8,12 +8,13 @@ import {
 
 //user-define Import files
 import {styles} from './styles';
+import {noteFieldType, noteItemType} from '../../Common';
 
-const NoteItem = (data: any) => {
+const NoteItem = (data: noteItemType) => {
   const navigation = useNavigation<any>();
   const {item} = data;
 
-  const notePress = (item: any) => {
+  const note = (item: noteFieldType) => {
     navigation.navigate('Description', {item});
   };
 
@@ -21,7 +22,7 @@ const NoteItem = (data: any) => {
     <TouchableOpacity
       style={styles.itemOpacity}
       onPress={() => {
-        notePress(item);
+        note(item);
       }}>
       <Text style={[styles.itemText, {textAlign: 'right', marginTop: hp(2)}]}>
         {item?.date}

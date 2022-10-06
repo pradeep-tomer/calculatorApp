@@ -1,4 +1,4 @@
-import {View, Text, FlatList, TextInput, TouchableOpacity} from 'react-native';
+import {View, Text, FlatList, TouchableOpacity} from 'react-native';
 import React, {useState, useEffect} from 'react';
 import {
   widthPercentageToDP as wp,
@@ -8,23 +8,24 @@ import {useSelector} from 'react-redux';
 
 //user-define Import files
 import {styles} from './styles';
-import NoteItem from '../../Components/NoteItem';
+import NoteItem from '../../../Components/NoteItem';
 import {useNavigation} from '@react-navigation/native';
-import {noteType} from '../../Common';
+import {noteFieldType, noteType} from '../../../Common';
+import {EditText} from '../../../Components/TextInput';
 
 const NoteScreen = () => {
   const navigation = useNavigation<any>();
   const NoteData = useSelector(
-    (state: any) => state?.addNoteReducer?.addNoteData,
+    (state: any) => state?.getNoteReducer?.getNoteData,
   );
-  const [noteRecord, setNoteRecord] = useState<any>([]);
+  const [noteRecord, setNoteRecord] = useState<noteFieldType[]>([]);
 
   useEffect(() => {
     setNoteRecord(NoteData);
   }, [NoteData]);
 
   const search = (value: string) => {
-    var data: any = [];
+    var data: noteFieldType[] = [];
     if (value) {
       for (var i = 0; i < NoteData.length; i++) {
         var length = 0;
@@ -39,7 +40,7 @@ const NoteScreen = () => {
           if (!flag && value.length <= length) {
             data.push({
               title: NoteData[i].title,
-              time: NoteData[i].time,
+              date: NoteData[i].date,
               description: NoteData[i].description,
             });
           }
@@ -53,7 +54,7 @@ const NoteScreen = () => {
 
   return (
     <View style={styles.container}>
-      <TextInput
+      <EditText
         style={styles.inputText}
         placeholder="Search note.."
         onChangeText={search}

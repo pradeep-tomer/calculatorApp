@@ -7,18 +7,19 @@ import {
 import {Stopwatch} from 'react-native-stopwatch-timer';
 
 //user-define Import files
-import Button from '../../Components/Button';
+import Button from '../../../Components/Button';
 import {options, styles} from './styles';
+import {lapDataType} from '../../../Common';
 
 const StopwatchScreen = () => {
   const [time, setTime] = useState<string>('');
-  const [isStopwatchStart, setIsStopwatchStart] = useState(false);
-  const [resetStopwatch, setResetStopwatch] = useState(false);
-  const [lapRecord, setLapRecord] = useState<any>([]);
+  const [isStopwatchStart, setIsStopwatchStart] = useState<boolean>(false);
+  const [resetStopwatch, setResetStopwatch] = useState<boolean>(false);
+  const [lapRecord, setLapRecord] = useState<lapDataType[]>([]);
   const [count, setCount] = useState<number>(0);
   const [lapStatus, setLapStatus] = useState<boolean>(true);
   const [clearStatus, setClearStatus] = useState<boolean>(true);
-  const [deg, setDeg] = useState(78);
+  const [deg, setDeg] = useState<number>(78);
 
   useEffect(() => {
     setDeg(deg + 6);
@@ -61,13 +62,13 @@ const StopwatchScreen = () => {
             start={isStopwatchStart}
             reset={resetStopwatch}
             options={options}
-            getTime={(time: any) => {
+            getTime={(time: string) => {
               setTime(time);
             }}
           />
         </View>
         <ScrollView style={{marginTop: hp(6)}}>
-          {lapRecord.map((item: any, index: number) => {
+          {lapRecord.map((item: lapDataType, index: number) => {
             return (
               <View key={index} style={styles.lapView}>
                 <View style={styles.lapCount}>

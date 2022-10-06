@@ -1,19 +1,28 @@
-import {View, TextInput} from 'react-native';
+import {TextInput} from 'react-native';
 import React from 'react';
 
 //user-define Import files
 import {styles} from './styles';
+import {TextInputType} from '../../Common';
 
-export const EditText = (props: any) => {
-  const {value, placeholder, containerStyle, onChangeText} = props;
+export const EditText = (props: TextInputType) => {
+  const {
+    placeholder,
+    secureTextEntry,
+    placeholderTextColor,
+    multiline,
+    style,
+    onChangeText,
+  } = props;
+
   return (
-    <View style={[styles.inputView, containerStyle]}>
-      <TextInput
-        value={value}
-        style={styles.inputField}
-        placeholder={placeholder}
-        onChangeText={onChangeText}
-      />
-    </View>
+    <TextInput
+      secureTextEntry={secureTextEntry}
+      placeholderTextColor={placeholderTextColor}
+      multiline={multiline}
+      style={[styles.inputField, style]}
+      placeholder={placeholder}
+      onChangeText={onChangeText}
+    />
   );
 };

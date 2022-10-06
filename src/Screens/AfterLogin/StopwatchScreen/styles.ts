@@ -8,7 +8,6 @@ export const styles = StyleSheet.create({
   btn: {
     flex: 1,
     backgroundColor: '#fff',
-    marginHorizontal: wp(0),
   },
   BtnText: {
     color: '#C58523',

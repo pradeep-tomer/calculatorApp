@@ -3,7 +3,7 @@ import React from 'react';
 import {useNavigation} from '@react-navigation/native';
 
 //user-define Import files
-import Button from '../../Components/Button';
+import Button from '../../../Components/Button';
 import {styles} from './styles';
 
 const HomeScreen = () => {

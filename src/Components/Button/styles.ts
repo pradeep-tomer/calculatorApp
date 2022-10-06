@@ -6,12 +6,8 @@ import {
 
 export const styles = StyleSheet.create({
   btnOpacity: {
-    backgroundColor: 'blue',
-    marginHorizontal: wp(4),
-    height: hp(5),
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: wp(3),
   },
   btnText: {
     color: '#C58523',
