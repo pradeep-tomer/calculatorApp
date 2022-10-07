@@ -71,7 +71,7 @@ export interface loginType {
 
 export interface userType {
   uid: string;
-  fullName: string;
+  fullName: string|null;
   type: number;
-  email: string;
+  email: string|null;
 }

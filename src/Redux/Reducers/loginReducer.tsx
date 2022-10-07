@@ -18,7 +18,7 @@ export const loginReducer = (state = Initial_State, action: any) => {
       return {
         ...state,
         userInfo: action.payload,
-        authStatus: 'Token',
+        authStatus: action?.payload?.uid,
         hideProgress: true,
         isLoading: false,
       };

@@ -52,6 +52,7 @@ export const registration = (data: registrationType) => {
         password,
       );
       const uid = isUserCreated?.user?.uid;
+      console.log("registration time User id: ",uid)
       userInfoDb({uid, fullName, email, type: 0});
       auth().currentUser?.sendEmailVerification();
       NavigationService.navigate('Login');
@@ -91,7 +92,8 @@ export const login = (data: loginType) => {
       .signInWithEmailAndPassword(email, password)
       .then(res => {
         if (res.user.emailVerified) {
-          Storage.saveData('Token', 'Token');
+          console.log("Login time User id: ",res?.user?.uid)
+          Storage.saveData('Token', res?.user?.uid);
           updateUser(1, res?.user?.uid);
           dispatch({
             type: Login_Success,
@@ -123,14 +125,12 @@ export const googleLogin = () => {
       const googleCredential = auth.GoogleAuthProvider.credential(
         userInfo?.idToken,
       );
-      const res = await auth().signInWithCredential(googleCredential);      
-      Storage.saveData('Token', 'Token');
-      // const tt = {
-      //   uid: res?.user?.uid,
-      //   email: res?.user?.email,
-      //   fullName: res?.user?.displayName,
-      // };
-      // userInfoDb({uid, fullName, email, type: 0});
+      const res = await auth().signInWithCredential(googleCredential);
+      Storage.saveData('Token', res?.user?.uid);
+      const uid = res?.user?.uid;
+      const email = res?.user?.email;
+      const fullName = res?.user?.displayName;
+      userInfoDb({uid, fullName, email, type: 2});
       dispatch({
         type: Login_Success,
         payload: res?.user,

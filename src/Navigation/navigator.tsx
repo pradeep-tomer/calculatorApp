@@ -2,7 +2,6 @@ import React, {useEffect} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {useDispatch, useSelector} from 'react-redux';
-import {firebase} from '@react-native-firebase/auth';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 
 //user-define Import files
@@ -11,14 +10,13 @@ import AfterLoginNavigator from './afterLoginNavigator';
 import BeforeLoginNavigator from './beforeLoginNavigator';
 import NavigationService from './NavigationService';
 import * as Storage from '../Services/asyncStoreConfig';
-import {Loader_status, Login_Success} from '../Redux/types';
+import {Loader_status} from '../Redux/types';
 import LoaderScreen from '../Components/Loader';
 
 const RootStack = createNativeStackNavigator();
 const Navigator = () => {
   const dispatch = useDispatch<any>();
   const state = useSelector((state: any) => state.loginReducer);
-
   useEffect(() => {
     dispatch(getNoteAction());
     GoogleSignin.configure({
@@ -28,13 +26,6 @@ const Navigator = () => {
   }, []);
 
   useEffect(() => {
-    const user = firebase.auth().currentUser;
-    if (user) {
-      dispatch({
-        type: Login_Success,
-        payload: user,
-      });
-    }
     Storage.getData('Token')
       .then(res => {
         dispatch({
@@ -54,7 +45,7 @@ const Navigator = () => {
       <RootStack.Navigator screenOptions={{headerShown: false}}>
         {!state?.hideProgress ? (
           <RootStack.Screen name="Loader" component={LoaderScreen} />
-        ) : state?.authStatus == 'Token' ? (
+        ) : state?.authStatus ? (
           <RootStack.Screen name="AfterLogin" component={AfterLoginNavigator} />
         ) : (
           <RootStack.Screen
