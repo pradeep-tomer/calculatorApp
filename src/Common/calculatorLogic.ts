@@ -26,7 +26,7 @@ const calculatingValues = (num1: any, operator: string, num2: number) => {
   }
 };
 
-export const convertToReArragedValue = (val: string) => {
+export const convertToReArrangedValue = (val: string) => {
   if (!val) {
     console.log('Please valid value');
   }

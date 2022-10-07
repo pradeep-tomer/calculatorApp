@@ -14,6 +14,7 @@ export const styles = StyleSheet.create({
     marginVertical: hp(2),
     marginHorizontal:wp(3),
     height:hp(5),
-    borderRadius:wp(4)
+    borderRadius:wp(4),
+    backgroundColor:'blue'
   },
 });

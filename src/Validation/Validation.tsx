@@ -52,3 +52,9 @@ export const LoginValidation = (data: loginType) => {
   if (Password_Validation(password)) return true;
   else return Toast.show('Please fill strong password');
 };
+export const ForgotValidation = (data: {email: string}) => {
+  const {email} = data;
+  if (!ValidTextField(data)) return Toast.show('Please fill Email');
+  if (EmailValidate(email)) return true;
+  else return Toast.show('Invalid Email Address');
+};

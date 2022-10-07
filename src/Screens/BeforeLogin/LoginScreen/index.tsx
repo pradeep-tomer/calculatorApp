@@ -6,6 +6,7 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import {useNavigation} from '@react-navigation/native';
+import {useDispatch, useSelector} from 'react-redux';
 
 //user-define Import files
 import {styles} from './styles';
@@ -22,9 +23,15 @@ import {
 import {SocialButton} from '../../../Components/SocialButton';
 import {loginType} from '../../../Common';
 import {LoginValidation} from '../../../Validation/Validation';
+import {login} from '../../../Firebase';
+import {Loader} from '../../../Components/Loader';
+import {Login_Failure} from '../../../Redux/types';
+import {googleAction} from '../../../Redux/Actions/loginAction';
 
 const LoginScreen = () => {
   const navigation = useNavigation<any>();
+  const dispatch = useDispatch<any>();
+  const state = useSelector((state: any) => state.loginReducer);
   const [secureTextPass, setSecureText] = useState<boolean>(true);
   const [textField, setTextFields] = useState<loginType>({
     email: '',
@@ -38,13 +45,15 @@ const LoginScreen = () => {
     };
     const valid = LoginValidation(fieldData);
     if (valid) {
-      console.log('All fields are valid');
+      dispatch({type: Login_Failure, payload: true});
+      dispatch(login(fieldData));
     }
   };
 
   return (
-    <KeyboardAwareScrollView style={{flex: 1, backgroundColor: '#D3D3D3'}}>
+    <KeyboardAwareScrollView style={{flex: 1, backgroundColor: 'skyblue'}}>
       <View style={styles.container}>
+        <Loader visible={state?.isLoading} />
         <Text style={styles.headerText}>Login</Text>
         <View style={styles.textFieldView}>
           <Text style={styles.labelText}>Email</Text>
@@ -90,7 +99,9 @@ const LoginScreen = () => {
         </View>
         <View style={styles.forgotView}>
           <Button
-            disabled={true}
+            onPress={() => {
+              navigation.navigate('Forgot');
+            }}
             btnStyle={{color: 'black'}}
             title="forgot password?"
           />
@@ -107,8 +118,14 @@ const LoginScreen = () => {
           <View style={styles.loginWithLine} />
         </View>
         <View style={styles.socialBtnView}>
-          <SocialButton title="Google" icon={Google} />
-          <SocialButton title="Facebook" icon={facebook} />
+          <SocialButton
+            onPress={() => {
+              dispatch(googleAction());
+            }}
+            title="Google"
+            icon={Google}
+          />
+          <SocialButton disabled={true} title="Facebook" icon={facebook} />
         </View>
       </View>
 

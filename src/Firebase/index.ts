@@ -1,13 +1,21 @@
 import firestore from '@react-native-firebase/firestore';
 import Toast from 'react-native-simple-toast';
 import moment from 'moment';
-import auth from '@react-native-firebase/auth';
+import auth, {firebase} from '@react-native-firebase/auth';
+import {GoogleSignin} from '@react-native-google-signin/google-signin';
 
 //user-define Import files
-import {getNote_Success} from '../Redux/types';
+import {
+  getNote_Success,
+  Login_Failure,
+  Login_Success,
+  Logout_Success,
+  Register_Success,
+} from '../Redux/types';
 import {Month} from '../Common/Month';
-import {registrationType} from '../Common';
+import {loginType, registrationType, userType} from '../Common';
 import NavigationService from '../Navigation/NavigationService';
+import * as Storage from '../Services/asyncStoreConfig';
 
 export const addNoteInDb = async (data: object) => {
   try {
@@ -18,25 +26,39 @@ export const addNoteInDb = async (data: object) => {
   }
 };
 
-const userInfoDb = async (uid: any, name: any) => {
+const userInfoDb = async (data: userType) => {
+  const {uid, email, fullName, type} = data;
   try {
-    await firestore().collection('users').doc(uid).set({name: name});
+    await firestore().collection('users').doc(uid).set({fullName, email, type});
   } catch (err) {
     console.log('User not added: ', err);
   }
 };
 
-export const registration = async(data: registrationType) => {
-  const {email, password, fullName} = data;
+export const updateUser = (type: number, uid: string) => {
+  try {
+    firestore().collection('users').doc(uid).set({type}, {merge: true});
+  } catch (err) {
+    console.log('Error: ', err);
+  }
+};
+
+export const registration = (data: registrationType) => {
+  return async (dispatch: any) => {
+    const {email, password, fullName} = data;
     try {
       const isUserCreated = await auth().createUserWithEmailAndPassword(
         email,
         password,
       );
       const uid = isUserCreated?.user?.uid;
-      userInfoDb(uid, fullName);
+      userInfoDb({uid, fullName, email, type: 0});
       auth().currentUser?.sendEmailVerification();
-      NavigationService.navigate('Before');
+      NavigationService.navigate('Login');
+      dispatch({
+        type: Register_Success,
+        payload: false,
+      });
       Toast.show(
         'Please verify email check out link in your inbox',
         Toast.LONG,
@@ -44,12 +66,112 @@ export const registration = async(data: registrationType) => {
     } catch (error: any) {
       if (error.code === 'auth/email-already-in-use') {
         NavigationService.navigate('Login');
+        dispatch({
+          type: Register_Success,
+          payload: false,
+        });
         Toast.show('Account Already exist Please Login');
       } else {
+        dispatch({
+          type: Register_Success,
+          payload: false,
+        });
         Toast.show('something went wrong');
         console.log('Error: ', error);
       }
     }
+  };
+};
+
+export const login = (data: loginType) => {
+  const {email, password} = data;
+
+  return (dispatch: any) => {
+    auth()
+      .signInWithEmailAndPassword(email, password)
+      .then(res => {
+        if (res.user.emailVerified) {
+          Storage.saveData('Token', 'Token');
+          updateUser(1, res?.user?.uid);
+          dispatch({
+            type: Login_Success,
+            payload: res?.user,
+          });
+          Toast.show('Login Successfully');
+        } else {
+          dispatch({
+            type: Login_Failure,
+            payload: false,
+          });
+          Toast.show('Please Verify Your Email');
+        }
+      })
+      .catch(Err => {
+        dispatch({
+          type: Login_Failure,
+          payload: false,
+        });
+        Toast.show('Invalid credential');
+      });
+  };
+};
+
+export const googleLogin = () => {
+  return async (dispatch: any) => {
+    try {
+      const userInfo = await GoogleSignin.signIn();
+      const googleCredential = auth.GoogleAuthProvider.credential(
+        userInfo?.idToken,
+      );
+      const res = await auth().signInWithCredential(googleCredential);      
+      Storage.saveData('Token', 'Token');
+      // const tt = {
+      //   uid: res?.user?.uid,
+      //   email: res?.user?.email,
+      //   fullName: res?.user?.displayName,
+      // };
+      // userInfoDb({uid, fullName, email, type: 0});
+      dispatch({
+        type: Login_Success,
+        payload: res?.user,
+      });
+      return res;
+    } catch (err) {
+      Toast.show('Something Went Wrong');
+      console.log('Google error!' + err);
+    }
+  };
+};
+
+export const forgotPassword = (email: string) => {
+  return firebase
+    .auth()
+    .sendPasswordResetEmail(email)
+    .then(res => {
+      Toast.show('Password reset link has been send on your email');
+      NavigationService.navigate('Login');
+    })
+    .catch(err => {
+      Toast.show('Something went wrong');
+    });
+};
+
+export const signOut = (uid: string) => {
+  auth().signOut();
+  updateUser(0, uid);
+
+  return async (dispatch: any) => {
+    try {
+      await GoogleSignin.signOut();
+      Storage.removeData('Token');
+      dispatch({
+        type: Logout_Success,
+        payload: null,
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
 };
 
 export const getNote = () => {

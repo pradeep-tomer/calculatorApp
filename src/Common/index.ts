@@ -19,8 +19,9 @@ export interface TextInputType {
   multiline?: boolean;
   onChangeText?: any;
   placeholderTextColor?: string;
-  secureTextEntry?:boolean
+  secureTextEntry?: boolean;
 }
+
 export interface lapDataType {
   count: string;
   time: string;
@@ -45,12 +46,14 @@ export interface actionType {
   type: string;
   payload: any;
 }
+
 export interface SocialBtnType {
   onPress?: any;
   title: string;
   Style?: object;
   btnStyle?: object;
   icon?: any;
+  disabled?:boolean
 }
 
 export interface registrationType {
@@ -63,4 +66,12 @@ export interface registrationType {
 export interface loginType {
   email: string;
   password: string;
+}
+
+
+export interface userType {
+  uid: string;
+  fullName: string;
+  type: number;
+  email: string;
 }

@@ -23,10 +23,6 @@ const AddNoteScreen = () => {
 
   const AddNote = () => {
     var time = Date.now();
-    // var month = Month();
-    // const date = day + month;
-    // const titleValid = noteValidation({title: textField?.title});
-    // const descriptionValid = noteValidation({title: textField?.description});
     const Valid = noteValidation(textField);
     if (Valid) {
       addNoteInDb({...textField, time});
@@ -36,7 +32,6 @@ const AddNoteScreen = () => {
       navigation.navigate('Note');
       return true;
     }
-    return true;
   };
 
   const backHandler = BackHandler.addEventListener(

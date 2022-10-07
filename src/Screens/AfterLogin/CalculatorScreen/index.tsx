@@ -6,12 +6,12 @@ import LinearGradient from 'react-native-linear-gradient';
 import Row from '../../../Components/Row';
 import CalculatorButton from '../../../Components/CalculatorButton';
 import {styles} from './styles';
-import {convertToReArragedValue} from '../../../Common/calculatorLogic';
+import {convertToReArrangedValue} from '../../../Common/calculatorLogic';
 
 const CalculatorScreen = () => {
   const [currentValue, setCurrentValue] = useState<any>([null]);
   const [expression, setExpression] = useState('');
-  const [result, setResult] = useState<any>(null);
+  const [result, setResult] = useState<number | null>(null);
   // console.log('Current value: ', currentValue);
   // console.log('Result: ', result);
 
@@ -40,15 +40,15 @@ const CalculatorScreen = () => {
     } else {
       if (Number.isInteger(currentValue[index])) {
         const previousNum = JSON.stringify(currentValue[index]) + '.';
-        const data: any = [];
+        const data: Array<string | number> = [];
         for (var i = 0; i < currentValue.length - 1; i++) {
           data.push(currentValue[i]);
         }
         data.push(previousNum);
-        setCurrentValue((prev: any) => [...data]);
+        setCurrentValue((prev: Array<string>) => [...data]);
       } else {
         if (currentValue[0] == null) {
-          setCurrentValue((prev: any) => ['0.']);
+          setCurrentValue(['0.']);
         }
       }
     }
@@ -73,38 +73,37 @@ const CalculatorScreen = () => {
             }
             data.push(n);
             setCurrentValue([...data]);
-          } else setCurrentValue((prev: any) => [...prev, value]);
+          } else setCurrentValue((prev: Array<string>) => [...prev, value]);
         } else {
           if (currentValue[0] == 0) {
             setCurrentValue([value]);
             return;
           }
-          const data: any = [];
+          const data: Array<string> = [];
           const previousNum = JSON.stringify(currentValue[index]) + value;
           const num = JSON.parse(previousNum);
           for (var i = 0; i < currentValue.length - 1; i++) {
             data.push(currentValue[i]);
           }
           data.push(num);
-          setCurrentValue((prev: any) => [...data]);
+          setCurrentValue([...data]);
         }
       }
       if (type == 'operator') {
         if (typeof currentValue[index] == 'string') {
-          const data: any = [];
+          const data: Array<number | string | undefined> = [];
           for (var i = 0; i < currentValue.length - 1; i++) {
             data.push(currentValue[i]);
           }
           data.push(value);
-          setCurrentValue((prev: any) => [...data]);
+          setCurrentValue([...data]);
         } else {
-          setCurrentValue((prev: any) => [...prev, value]);
+          setCurrentValue((prev: Array<string>) => [...prev, value]);
         }
       }
     } else {
       if (type == 'number') setCurrentValue([value]);
-      if (type == 'operator' && value == '-')
-        setCurrentValue((prev: any) => ['0', value]);
+      if (type == 'operator' && value == '-') setCurrentValue(['0', value]);
     }
   };
 
@@ -119,13 +118,13 @@ const CalculatorScreen = () => {
     currentValue.map((item: number | string, index: number) => {
       exp = exp + item;
     });
-    const res = convertToReArragedValue(exp);
+    const res = convertToReArrangedValue(exp);
     setResult(res);
   };
 
   const percent = () => {
     if (currentValue.length <= 2) {
-      setCurrentValue((prev: any) => [...prev, '%']);
+      setCurrentValue((prev: Array<string>) => [...prev, '%']);
       const res = currentValue[0] / 100;
       setResult(res);
     }
@@ -148,7 +147,8 @@ const CalculatorScreen = () => {
         {!(result == null) ? (
           // <Text style={styles.valueText}>{result.toFixed(4)}</Text>
           <Text style={styles.valueText}>
-            {parseFloat(result).toLocaleString()}
+            {/* {parseFloat(result).toLocaleString()} */}
+            {result.toLocaleString()}
           </Text>
         ) : null}
       </LinearGradient>

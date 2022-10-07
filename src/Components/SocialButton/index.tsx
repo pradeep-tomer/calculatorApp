@@ -6,10 +6,13 @@ import {SocialBtnType} from '../../Common';
 import {styles} from './styles';
 
 export const SocialButton = (props: SocialBtnType) => {
-  const {title, icon} = props;
+  const {title, disabled, onPress, icon} = props;
 
   return (
-    <TouchableOpacity style={styles.SocialBtnOpacity}>
+    <TouchableOpacity
+      disabled={disabled}
+      onPress={onPress}
+      style={styles.SocialBtnOpacity}>
       <Image style={styles.signInImage} resizeMode="contain" source={icon} />
       <Text style={styles.socialText}>{title}</Text>
     </TouchableOpacity>

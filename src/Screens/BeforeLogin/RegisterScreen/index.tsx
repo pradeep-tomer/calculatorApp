@@ -7,7 +7,7 @@ import {
 } from 'react-native-responsive-screen';
 import {useNavigation} from '@react-navigation/native';
 import Toast from 'react-native-simple-toast';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 //user-define Import files
 import {styles} from './styles';
@@ -24,11 +24,14 @@ import {
 } from '../../../Utils/images';
 import {registrationType} from '../../../Common';
 import {RegisterValidation} from '../../../Validation/Validation';
-import {registration} from '../../../Firebase';
+import {registerAction} from '../../../Redux/Actions/registerAction';
+import {Register_Loader} from '../../../Redux/types';
+import {Loader} from '../../../Components/Loader';
 
 const RegisterScreen = () => {
   const navigation = useNavigation<any>();
   const dispatch = useDispatch<any>();
+  const state = useSelector((state: any) => state.registerReducer);
   const [checkBoxStatus, setCheckBoxStatus] = useState<boolean>(false);
   const [secureTextPass, setSecureText] = useState<boolean>(true);
   const [secureConfirmPass, setSecureConfirmPass] = useState<boolean>(true);
@@ -49,21 +52,16 @@ const RegisterScreen = () => {
     const valid = RegisterValidation(fieldData);
     if (valid) {
       if (checkBoxStatus) {
-        registration(fieldData);
-        setTextFields((prev: registrationType) => ({
-          email: '',
-          password: '',
-          fullName: '',
-          confirmPass: '',
-        }));
-        setCheckBoxStatus(false);
+        dispatch({type: Register_Loader});
+        dispatch(registerAction(fieldData));
       } else Toast.show('Please Agree terms & conditions');
     }
   };
 
   return (
-    <KeyboardAwareScrollView style={{flex: 1, backgroundColor: '#D3D3D3'}}>
+    <KeyboardAwareScrollView style={{flex: 1, backgroundColor: 'skyblue'}}>
       <View style={styles.container}>
+        <Loader visible={state?.isLoading} />
         <Text style={styles.headerText}>Register</Text>
         <View style={styles.textFieldView}>
           <Text style={styles.labelText}>Full Name</Text>

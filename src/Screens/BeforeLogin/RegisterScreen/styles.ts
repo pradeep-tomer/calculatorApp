@@ -40,7 +40,7 @@ export const styles = StyleSheet.create({
     resizeMode: 'contain',
     marginRight: wp(2),
   },
-  termText:{
+  termText: {
     fontSize: hp(2),
     fontWeight: 'bold',
     color: 'black',
