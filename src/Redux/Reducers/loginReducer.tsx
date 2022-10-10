@@ -1,3 +1,4 @@
+import {actionType} from '../../Common';
 import {
   Loader_status,
   Login_Failure,
@@ -12,7 +13,7 @@ export const Initial_State = {
   isLoading: false,
 };
 
-export const loginReducer = (state = Initial_State, action: any) => {
+export const loginReducer = (state = Initial_State, action: actionType) => {
   switch (action.type) {
     case Login_Success:
       return {

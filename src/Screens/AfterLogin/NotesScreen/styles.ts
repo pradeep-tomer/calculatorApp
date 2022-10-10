@@ -19,18 +19,23 @@ export const styles = StyleSheet.create({
     fontSize: hp(3),
     height: hp(8),
     fontWeight: 'bold',
-    color:'black'
+    color: 'black',
   },
   addBtn: {
     position: 'absolute',
     width: wp(18),
     height: hp(9),
-    borderRadius: wp(9),
-    backgroundColor: 'green',
+    borderRadius: wp(4),
+    backgroundColor: '#F2F5FB',
     justifyContent: 'center',
     alignItems: 'center',
     bottom: wp(3),
     right: '5%',
     zIndex: 999,
+  },
+  addIcon: {
+    height: hp(4),
+    resizeMode: 'contain',
+    width: wp(8),
   },
 });

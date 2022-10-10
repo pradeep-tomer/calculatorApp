@@ -5,7 +5,6 @@ import {useDispatch, useSelector} from 'react-redux';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 
 //user-define Import files
-import {getNoteAction} from '../Redux/Actions/getNoteAction';
 import AfterLoginNavigator from './afterLoginNavigator';
 import BeforeLoginNavigator from './beforeLoginNavigator';
 import NavigationService from './NavigationService';
@@ -18,7 +17,6 @@ const Navigator = () => {
   const dispatch = useDispatch<any>();
   const state = useSelector((state: any) => state.loginReducer);
   useEffect(() => {
-    dispatch(getNoteAction());
     GoogleSignin.configure({
       webClientId:
         '667370963371-qtoa0lq5cd6fmfig33v5b83648s3pfrd.apps.googleusercontent.com',

@@ -75,7 +75,7 @@ const CalculatorScreen = () => {
             setCurrentValue([...data]);
           } else setCurrentValue((prev: Array<string>) => [...prev, value]);
         } else {
-          if (currentValue[0] == 0) {
+          if (currentValue[0] == 0 && currentValue.length == 1) {
             setCurrentValue([value]);
             return;
           }

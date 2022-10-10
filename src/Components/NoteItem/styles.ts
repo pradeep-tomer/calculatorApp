@@ -10,7 +10,6 @@ export const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   itemOpacity: {
-    backgroundColor: 'rgb(177,142,33)',
     width: '46%',
     height: hp(30),
     marginHorizontal: wp(2),
@@ -21,7 +20,7 @@ export const styles = StyleSheet.create({
   itemText: {
     color: '#fff',
     fontWeight: 'bold',
-    fontSize: hp(2.9),
+    fontSize: hp(3),
     marginHorizontal: wp(2),
   },
 });

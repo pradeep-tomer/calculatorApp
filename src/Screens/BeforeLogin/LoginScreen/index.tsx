@@ -15,7 +15,6 @@ import {EditText} from '../../../Components/TextInput';
 import {
   door,
   Email,
-  facebook,
   Google,
   passwordEyes,
   passwordEyesHide,
@@ -48,6 +47,11 @@ const LoginScreen = () => {
       dispatch({type: Login_Failure, payload: true});
       dispatch(login(fieldData));
     }
+  };
+
+  const googleLogin = () => {
+    dispatch({type: Login_Failure, payload: true});
+    dispatch(googleAction());
   };
 
   return (
@@ -119,13 +123,11 @@ const LoginScreen = () => {
         </View>
         <View style={styles.socialBtnView}>
           <SocialButton
-            onPress={() => {
-              dispatch(googleAction());
-            }}
+            style={{flex: 1}}
+            onPress={googleLogin}
             title="Google"
             icon={Google}
           />
-          <SocialButton disabled={true} title="Facebook" icon={facebook} />
         </View>
       </View>
 

@@ -1,5 +1,6 @@
 import {View, Image, Text} from 'react-native';
 import React, {useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 
 //user-define Import files
 import {styles} from './styles';
@@ -8,9 +9,14 @@ import {EditText} from '../../../Components/TextInput';
 import Button from '../../../Components/Button';
 import {ForgotValidation} from '../../../Validation/Validation';
 import {forgotPassword} from '../../../Firebase';
+import {Forgot_success} from '../../../Redux/types';
+import {forgotAction} from '../../../Redux/Actions/forgotAction';
+import {Loader} from '../../../Components/Loader';
 
 const ForgotScreen = () => {
   const [email, setEmail] = useState<String>('');
+  const dispatch = useDispatch<any>();
+  const state = useSelector((state: any) => state?.forgotReducer);
 
   const send = () => {
     const fieldData = {
@@ -18,11 +24,13 @@ const ForgotScreen = () => {
     };
     const valid = ForgotValidation(fieldData);
     if (valid) {
-      forgotPassword(fieldData?.email);
+      dispatch({type: Forgot_success, payload: true});
+      dispatch(forgotAction(fieldData?.email));
     }
   };
   return (
     <View style={styles.container}>
+      <Loader visible={state?.loading} />
       <Text style={styles.headerText}>ForgotScreen</Text>
       <View style={styles.textFieldView}>
         <Text style={styles.labelText}>Email</Text>

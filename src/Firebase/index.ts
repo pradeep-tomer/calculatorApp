@@ -6,30 +6,51 @@ import {GoogleSignin} from '@react-native-google-signin/google-signin';
 
 //user-define Import files
 import {
+  Forgot_Failure,
+  Forgot_success,
   getNote_Success,
   Login_Failure,
   Login_Success,
   Logout_Success,
   Register_Success,
+  user_Info,
 } from '../Redux/types';
 import {Month} from '../Common/Month';
 import {loginType, registrationType, userType} from '../Common';
 import NavigationService from '../Navigation/NavigationService';
 import * as Storage from '../Services/asyncStoreConfig';
 
-export const addNoteInDb = async (data: object) => {
+export const addNoteInDb = async (collections: string, data: object) => {
   try {
-    await firestore().collection('Note').add(data);
-    Toast.show('Post added successfully');
+    await firestore().collection(collections).add(data);
+    if (collections == 'Note') Toast.show('Post added successfully');
   } catch (err) {
     Toast.show('Post not added something went wrong');
+  }
+};
+
+export const updateNote = (
+  noteId: string,
+  uid: string,
+  visit: Array<string>,
+) => {
+  try {
+    firestore()
+      .collection('Note')
+      .doc(noteId)
+      .set({visit: [...visit, uid]}, {merge: true});
+  } catch (err) {
+    console.log('Error: ', err);
   }
 };
 
 const userInfoDb = async (data: userType) => {
   const {uid, email, fullName, type} = data;
   try {
-    await firestore().collection('users').doc(uid).set({fullName, email, type});
+    await firestore()
+      .collection('users')
+      .doc(uid)
+      .set({fullName, uid, email, type});
   } catch (err) {
     console.log('User not added: ', err);
   }
@@ -37,10 +58,29 @@ const userInfoDb = async (data: userType) => {
 
 export const updateUser = (type: number, uid: string) => {
   try {
-    firestore().collection('users').doc(uid).set({type}, {merge: true});
+    firestore().collection('users').doc(uid).set({type, uid}, {merge: true});
   } catch (err) {
     console.log('Error: ', err);
   }
+};
+
+export const getUserInfo = (uid: string) => {
+  return (dispatch: any) => {
+    try {
+      firestore()
+        .collection('users')
+        .doc(uid)
+        .get()
+        .then(res => {
+          dispatch({
+            type: user_Info,
+            payload: res?.data(),
+          });
+        });
+    } catch (err) {
+      Toast.show('Something went wrong. Please try after Some time');
+    }
+  };
 };
 
 export const registration = (data: registrationType) => {
@@ -52,9 +92,8 @@ export const registration = (data: registrationType) => {
         password,
       );
       const uid = isUserCreated?.user?.uid;
-      console.log("registration time User id: ",uid)
-      userInfoDb({uid, fullName, email, type: 0});
       auth().currentUser?.sendEmailVerification();
+      userInfoDb({uid, fullName, email, type: 0});
       NavigationService.navigate('Login');
       dispatch({
         type: Register_Success,
@@ -92,7 +131,6 @@ export const login = (data: loginType) => {
       .signInWithEmailAndPassword(email, password)
       .then(res => {
         if (res.user.emailVerified) {
-          console.log("Login time User id: ",res?.user?.uid)
           Storage.saveData('Token', res?.user?.uid);
           updateUser(1, res?.user?.uid);
           dispatch({
@@ -131,6 +169,7 @@ export const googleLogin = () => {
       const email = res?.user?.email;
       const fullName = res?.user?.displayName;
       userInfoDb({uid, fullName, email, type: 2});
+      Toast.show('Login Successfully');
       dispatch({
         type: Login_Success,
         payload: res?.user,
@@ -144,30 +183,51 @@ export const googleLogin = () => {
 };
 
 export const forgotPassword = (email: string) => {
-  return firebase
-    .auth()
-    .sendPasswordResetEmail(email)
-    .then(res => {
-      Toast.show('Password reset link has been send on your email');
-      NavigationService.navigate('Login');
-    })
-    .catch(err => {
-      Toast.show('Something went wrong');
-    });
+  return (dispatch: any) => {
+    firebase
+      .auth()
+      .sendPasswordResetEmail(email)
+      .then(res => {
+        Toast.show('Password reset link has been send on your email');
+        dispatch({
+          type: Forgot_success,
+          payload: false,
+        });
+        NavigationService.navigate('Login');
+      })
+      .catch(err => {
+        dispatch({
+          type: Forgot_Failure,
+          payload: false,
+        });
+        Toast.show('Something went wrong');
+      });
+  };
 };
 
-export const signOut = (uid: string) => {
-  auth().signOut();
-  updateUser(0, uid);
+export const signOut = (data: userType) => {
+  const {uid, type} = data;
 
   return async (dispatch: any) => {
     try {
-      await GoogleSignin.signOut();
-      Storage.removeData('Token');
-      dispatch({
-        type: Logout_Success,
-        payload: null,
-      });
+      if (type == 1) {
+        auth().signOut();
+        updateUser(0, uid);
+        Storage.removeData('Token');
+        dispatch({
+          type: Logout_Success,
+          payload: null,
+        });
+      }
+      if (type == 2) {
+        await GoogleSignin.signOut();
+        updateUser(0, uid);
+        Storage.removeData('Token');
+        dispatch({
+          type: Logout_Success,
+          payload: null,
+        });
+      }
     } catch (error) {
       console.error(error);
     }

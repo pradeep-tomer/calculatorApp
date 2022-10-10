@@ -32,6 +32,8 @@ export interface noteFieldType {
   description?: string;
   date?: string;
   id?: string;
+  visit?: Array<string>;
+  time?: string|number;
 }
 
 export interface noteItemType {
@@ -39,6 +41,9 @@ export interface noteItemType {
     title?: string;
     description?: string;
     date?: string;
+    id:string;
+    time:string|number;
+    visit:Array<string>
   };
 }
 
@@ -50,10 +55,10 @@ export interface actionType {
 export interface SocialBtnType {
   onPress?: any;
   title: string;
-  Style?: object;
+  style?: object;
   btnStyle?: object;
   icon?: any;
-  disabled?:boolean
+  disabled?: boolean;
 }
 
 export interface registrationType {
@@ -68,10 +73,9 @@ export interface loginType {
   password: string;
 }
 
-
 export interface userType {
   uid: string;
-  fullName: string|null;
+  fullName: string | null;
   type: number;
-  email: string|null;
+  email: string | null;
 }

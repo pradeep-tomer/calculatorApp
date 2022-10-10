@@ -25,7 +25,7 @@ const AddNoteScreen = () => {
     var time = Date.now();
     const Valid = noteValidation(textField);
     if (Valid) {
-      addNoteInDb({...textField, time});
+      addNoteInDb('Note', {...textField, visit: [], time});
       navigation.navigate('Note');
       return true;
     } else {

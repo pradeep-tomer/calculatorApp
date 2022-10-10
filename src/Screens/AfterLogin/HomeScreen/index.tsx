@@ -1,17 +1,28 @@
 import {View} from 'react-native';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
+import {firebase} from '@react-native-firebase/auth';
 
 //user-define Import files
 import Button from '../../../Components/Button';
 import {styles} from './styles';
 import {logOutAction} from '../../../Redux/Actions/loginAction';
+import {userInfoAction} from '../../../Redux/Actions/userInfoAction';
+import {getNoteAction} from '../../../Redux/Actions/getNoteAction';
 
 const HomeScreen = () => {
   const navigation = useNavigation<any>();
   const dispatch = useDispatch<any>();
-  const state = useSelector((state: any) => state.loginReducer);
+  const userInfo = useSelector((state: any) => state.userInfoReducer);
+
+  useEffect(() => {
+    const user = firebase.auth().currentUser;
+    if (user) {
+      dispatch(getNoteAction());
+      dispatch(userInfoAction(user?.uid));
+    }
+  }, []);
 
   const navigate = (name: string) => {
     navigation.navigate(name);
@@ -42,7 +53,7 @@ const HomeScreen = () => {
       />
       <Button
         onPress={() => {
-          dispatch(logOutAction(state?.userInfo?.uid));
+          dispatch(logOutAction(userInfo.userInfo));
         }}
         title="SignOut"
         style={styles.btn}

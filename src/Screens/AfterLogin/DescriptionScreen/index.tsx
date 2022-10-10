@@ -4,6 +4,8 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+
+//user-define Import files
 import {styles} from './styles';
 
 const DescriptionScreen = ({route}: any) => {

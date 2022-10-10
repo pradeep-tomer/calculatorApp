@@ -5,3 +5,6 @@ export const Loader_status = 'Loader_status';
 export const Login_Failure = 'Login_Failure';
 export const Register_Success = 'Register_Success';
 export const Register_Loader = 'Register_Loader';
+export const user_Info = 'user_Info';
+export const Forgot_success = 'Forgot_success';
+export const Forgot_Failure = 'Forgot_Failure';

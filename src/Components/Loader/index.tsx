@@ -15,7 +15,7 @@ const LoaderScreen = () => {
 
 export default LoaderScreen;
 
-export const Loader = ({visible}: any) => {
+export const Loader = ({visible}: {visible: boolean}) => {
   return (
     <View>
       <Spinner

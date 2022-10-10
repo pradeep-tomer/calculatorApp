@@ -1,4 +1,4 @@
-import {loginType} from '../../Common';
+import {loginType, userType} from '../../Common';
 import {googleLogin, login, signOut} from '../../Firebase';
 
 export const loginAction = (data: loginType) => {
@@ -7,9 +7,9 @@ export const loginAction = (data: loginType) => {
   };
 };
 
-export function logOutAction(uid: string) {
+export function logOutAction(data: userType) {
   return (dispatch: any) => {
-    dispatch(signOut(uid));
+    dispatch(signOut(data));
   };
 }
 
