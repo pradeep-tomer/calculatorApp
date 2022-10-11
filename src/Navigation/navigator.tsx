@@ -16,6 +16,7 @@ const RootStack = createNativeStackNavigator();
 const Navigator = () => {
   const dispatch = useDispatch<any>();
   const state = useSelector((state: any) => state.loginReducer);
+
   useEffect(() => {
     GoogleSignin.configure({
       webClientId:
@@ -35,6 +36,7 @@ const Navigator = () => {
         console.log('Rejected: ', error);
       });
   }, []);
+
   return (
     <NavigationContainer
       ref={navigatorRef => {

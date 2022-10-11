@@ -13,14 +13,14 @@ export const noteValidation = (data: object) => {
   else return false;
 };
 
-export const fullNames = (name: string | any) => {
+export const fullNames = (name: string) => {
   const Name = name.trim();
   const pattern = /^[a-zA-Z]{2,40}( [a-zA-Z]{2,40})+$/;
   const valid = pattern.test(Name);
   return valid;
 };
 
-const EmailValidate = (email: string | any) => {
+const EmailValidate = (email: string) => {
   const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
   const emails = email.trim();
   if (reg.test(emails)) return true;
@@ -29,7 +29,7 @@ const EmailValidate = (email: string | any) => {
   }
 };
 
-const Password_Validation = (pass: string | any) => {
+const Password_Validation = (pass: string) => {
   const pattern = /((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W]).{8,64})/;
   const valid = pattern.test(pass);
   return valid;

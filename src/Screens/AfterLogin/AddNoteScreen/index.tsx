@@ -34,12 +34,6 @@ const AddNoteScreen = () => {
     }
   };
 
-  const backHandler = BackHandler.addEventListener(
-    'hardwareBackPress',
-    AddNote,
-  );
-  backHandler.remove();
-
   useEffect(() => {
     const backHandler = BackHandler.addEventListener(
       'hardwareBackPress',

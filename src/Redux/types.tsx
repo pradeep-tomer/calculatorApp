@@ -1,10 +1,12 @@
-export const getNote_Success = 'getNote_Success';
+export const GetNote_Success = 'GetNote_Success';
 export const Login_Success = 'Login_Success';
 export const Logout_Success = 'Logout_Success';
 export const Loader_status = 'Loader_status';
 export const Login_Failure = 'Login_Failure';
 export const Register_Success = 'Register_Success';
+export const Register_Failure = 'Register_Failure';
 export const Register_Loader = 'Register_Loader';
 export const user_Info = 'user_Info';
 export const Forgot_success = 'Forgot_success';
 export const Forgot_Failure = 'Forgot_Failure';
+export const Logout_Failure = 'Logout_Failure';

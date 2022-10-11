@@ -33,8 +33,8 @@ export const styles = StyleSheet.create({
   backBtnOpacity: {
     height: hp(6),
     justifyContent: 'center',
-    marginTop:hp(3),
-    width:wp(10),
-    marginLeft:wp(3)
+    marginTop: hp(3),
+    width: wp(10),
+    marginLeft: wp(3),
   },
 });

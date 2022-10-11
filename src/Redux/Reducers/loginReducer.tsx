@@ -3,6 +3,7 @@ import {
   Loader_status,
   Login_Failure,
   Login_Success,
+  Logout_Failure,
   Logout_Success,
 } from '../types';
 
@@ -24,7 +25,9 @@ export const loginReducer = (state = Initial_State, action: actionType) => {
         isLoading: false,
       };
     case Logout_Success:
-      return {...state, authStatus: null, hideProgress: true};
+      return {...state, authStatus: action.payload, hideProgress: true};
+    case Logout_Failure:
+      return {...state, authStatus: action.payload, hideProgress: true};
     case Loader_status:
       return {...state, authStatus: action.payload, hideProgress: true};
     case Login_Failure:

@@ -7,19 +7,19 @@ import {
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor:'skyblue'
+    backgroundColor: 'skyblue',
   },
-  headerText:{
-    textAlign:'center',
-    fontWeight:'bold',
-    fontSize:hp(4),
-    color:'black',
-    marginTop:hp(4)
-  },  
+  headerText: {
+    textAlign: 'center',
+    fontWeight: 'bold',
+    fontSize: hp(4),
+    color: 'black',
+    marginTop: hp(4),
+  },
   textFieldView: {
     marginHorizontal: wp(4),
     marginTop: hp(3),
-  },  
+  },
   labelText: {
     color: 'black',
     fontWeight: 'bold',
@@ -45,11 +45,11 @@ export const styles = StyleSheet.create({
     flex: 1,
     fontSize: hp(2.5),
   },
-  btn:{
-    backgroundColor: 'blue',  
-    height:hp(5),
-    marginHorizontal:wp(4),
-    marginTop:hp(3),
-    borderRadius:wp(4)
-  }
+  btn: {
+    backgroundColor: 'blue',
+    height: hp(5),
+    marginHorizontal: wp(4),
+    marginTop: hp(3),
+    borderRadius: wp(4),
+  },
 });

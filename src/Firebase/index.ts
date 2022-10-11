@@ -8,80 +8,19 @@ import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import {
   Forgot_Failure,
   Forgot_success,
-  getNote_Success,
+  GetNote_Success,
   Login_Failure,
   Login_Success,
+  Logout_Failure,
   Logout_Success,
+  Register_Failure,
   Register_Success,
   user_Info,
 } from '../Redux/types';
-import {Month} from '../Common/Month';
+import {month} from '../Common/month';
 import {loginType, registrationType, userType} from '../Common';
 import NavigationService from '../Navigation/NavigationService';
 import * as Storage from '../Services/asyncStoreConfig';
-
-export const addNoteInDb = async (collections: string, data: object) => {
-  try {
-    await firestore().collection(collections).add(data);
-    if (collections == 'Note') Toast.show('Post added successfully');
-  } catch (err) {
-    Toast.show('Post not added something went wrong');
-  }
-};
-
-export const updateNote = (
-  noteId: string,
-  uid: string,
-  visit: Array<string>,
-) => {
-  try {
-    firestore()
-      .collection('Note')
-      .doc(noteId)
-      .set({visit: [...visit, uid]}, {merge: true});
-  } catch (err) {
-    console.log('Error: ', err);
-  }
-};
-
-const userInfoDb = async (data: userType) => {
-  const {uid, email, fullName, type} = data;
-  try {
-    await firestore()
-      .collection('users')
-      .doc(uid)
-      .set({fullName, uid, email, type});
-  } catch (err) {
-    console.log('User not added: ', err);
-  }
-};
-
-export const updateUser = (type: number, uid: string) => {
-  try {
-    firestore().collection('users').doc(uid).set({type, uid}, {merge: true});
-  } catch (err) {
-    console.log('Error: ', err);
-  }
-};
-
-export const getUserInfo = (uid: string) => {
-  return (dispatch: any) => {
-    try {
-      firestore()
-        .collection('users')
-        .doc(uid)
-        .get()
-        .then(res => {
-          dispatch({
-            type: user_Info,
-            payload: res?.data(),
-          });
-        });
-    } catch (err) {
-      Toast.show('Something went wrong. Please try after Some time');
-    }
-  };
-};
 
 export const registration = (data: registrationType) => {
   return async (dispatch: any) => {
@@ -107,13 +46,13 @@ export const registration = (data: registrationType) => {
       if (error.code === 'auth/email-already-in-use') {
         NavigationService.navigate('Login');
         dispatch({
-          type: Register_Success,
+          type: Register_Failure,
           payload: false,
         });
         Toast.show('Account Already exist Please Login');
       } else {
         dispatch({
-          type: Register_Success,
+          type: Register_Failure,
           payload: false,
         });
         Toast.show('something went wrong');
@@ -229,7 +168,31 @@ export const signOut = (data: userType) => {
         });
       }
     } catch (error) {
+      Toast.show('something went wrong');
+      dispatch({
+        type: Logout_Failure,
+        payload: null,
+      });
       console.error(error);
+    }
+  };
+};
+
+export const getUserInfo = (uid: string) => {
+  return (dispatch: any) => {
+    try {
+      firestore()
+        .collection('users')
+        .doc(uid)
+        .get()
+        .then(res => {
+          dispatch({
+            type: user_Info,
+            payload: res?.data(),
+          });
+        });
+    } catch (err) {
+      Toast.show('Something went wrong. Please try after Some time');
     }
   };
 };
@@ -249,12 +212,12 @@ export const getNote = () => {
             const id = item?.id;
             const unix_time = item?.data()?.time;
             const dates = moment(unix_time).format('DD');
-            const month = Month(JSON.parse(moment(unix_time).format('M')));
-            const date = dates + month;
+            const months = month(JSON.parse(moment(unix_time).format('M')));
+            const date = dates + months;
             data.push({id, ...item?.data(), date});
           });
           dispatch({
-            type: getNote_Success,
+            type: GetNote_Success,
             payload: data,
           });
         });
@@ -263,4 +226,51 @@ export const getNote = () => {
       console.log('Error: ', err);
     }
   };
+};
+
+export const addNoteInDb = async (collections: string, data: object) => {
+  try {
+    await firestore().collection(collections).add(data);
+    if (collections == 'Note') Toast.show('Post added successfully');
+  } catch (err) {
+    Toast.show('Post not added something went wrong');
+  }
+};
+
+export const updateNote = (
+  noteId: string,
+  uid: string,
+  visit: Array<string>,
+) => {
+  try {
+    firestore()
+      .collection('Note')
+      .doc(noteId)
+      .set({visit: [...visit, uid]}, {merge: true});
+  } catch (err) {
+    Toast.show('something went wrong');
+    console.log('Error: ', err);
+  }
+};
+
+const userInfoDb = async (data: userType) => {
+  const {uid, email, fullName, type} = data;
+  try {
+    await firestore()
+      .collection('users')
+      .doc(uid)
+      .set({fullName, uid, email, type});
+  } catch (err) {
+    Toast.show('something went wrong');
+    console.log('User not added: ', err);
+  }
+};
+
+export const updateUser = (type: number, uid: string) => {
+  try {
+    firestore().collection('users').doc(uid).set({type, uid}, {merge: true});
+  } catch (err) {
+    Toast.show('something went wrong');
+    console.log('Error: ', err);
+  }
 };

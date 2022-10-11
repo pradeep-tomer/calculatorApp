@@ -65,7 +65,7 @@ export const convertToReArrangedValue = (val: string) => {
   }
   return calculatingWithReArrangedValue(arrangedValues);
 };
-var calculatingWithReArrangedValue = function (val: string) {
+let calculatingWithReArrangedValue = function (val: string) {
   var answer = [],
     n,
     result;

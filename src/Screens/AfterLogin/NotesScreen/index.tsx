@@ -1,4 +1,4 @@
-import {View, Text, FlatList, Image, TouchableOpacity} from 'react-native';
+import {View, FlatList, Image, TouchableOpacity} from 'react-native';
 import React, {useState, useEffect} from 'react';
 import {useSelector} from 'react-redux';
 

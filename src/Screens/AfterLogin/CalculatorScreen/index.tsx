@@ -12,8 +12,6 @@ const CalculatorScreen = () => {
   const [currentValue, setCurrentValue] = useState<any>([null]);
   const [expression, setExpression] = useState('');
   const [result, setResult] = useState<number | null>(null);
-  // console.log('Current value: ', currentValue);
-  // console.log('Result: ', result);
 
   useEffect(() => {
     var exp: string = '';

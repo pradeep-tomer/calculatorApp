@@ -31,9 +31,9 @@ export const styles = StyleSheet.create({
     marginHorizontal: wp(3.5),
     height: hp(10),
     alignItems: 'center',
-    marginVertical:hp(0.5),
-    borderBottomWidth:StyleSheet.hairlineWidth,
-    borderColor:'#F8F2EA'
+    marginVertical: hp(0.5),
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderColor: '#F8F2EA',
   },
   lapCount: {
     height: hp(5),

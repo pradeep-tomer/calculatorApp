@@ -8,7 +8,6 @@ import {Email} from '../../../Utils/images';
 import {EditText} from '../../../Components/TextInput';
 import Button from '../../../Components/Button';
 import {ForgotValidation} from '../../../Validation/Validation';
-import {forgotPassword} from '../../../Firebase';
 import {Forgot_success} from '../../../Redux/types';
 import {forgotAction} from '../../../Redux/Actions/forgotAction';
 import {Loader} from '../../../Components/Loader';
@@ -28,6 +27,7 @@ const ForgotScreen = () => {
       dispatch(forgotAction(fieldData?.email));
     }
   };
+
   return (
     <View style={styles.container}>
       <Loader visible={state?.loading} />

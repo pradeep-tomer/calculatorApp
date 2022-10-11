@@ -1,5 +1,5 @@
 import {actionType} from '../../Common';
-import {getNote_Success} from '../types';
+import {GetNote_Success} from '../types';
 
 export const Initial_State = {
   getNoteData: [],
@@ -7,7 +7,7 @@ export const Initial_State = {
 
 export const getNoteReducer = (state = Initial_State, action: actionType) => {
   switch (action.type) {
-    case getNote_Success:
+    case GetNote_Success:
       return {...state, getNoteData: [...action.payload]};
     default:
       return state;

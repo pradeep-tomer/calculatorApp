@@ -12,9 +12,9 @@ export const styles = StyleSheet.create({
   },
   btn: {
     marginVertical: hp(2),
-    marginHorizontal:wp(3),
-    height:hp(5),
-    borderRadius:wp(4),
-    backgroundColor:'blue'
+    marginHorizontal: wp(3),
+    height: hp(5),
+    borderRadius: wp(4),
+    backgroundColor: 'blue',
   },
 });

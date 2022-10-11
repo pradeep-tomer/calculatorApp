@@ -1,9 +1,6 @@
 import {View, ScrollView, TouchableOpacity, Text} from 'react-native';
 import React, {useState, useEffect} from 'react';
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from 'react-native-responsive-screen';
+import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import {Stopwatch} from 'react-native-stopwatch-timer';
 
 //user-define Import files
