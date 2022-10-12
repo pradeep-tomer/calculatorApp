@@ -121,11 +121,8 @@ const CalculatorScreen = () => {
   };
 
   const percent = () => {
-    if (currentValue.length <= 2) {
+    if (!(currentValue.length == 0))
       setCurrentValue((prev: Array<string>) => [...prev, '%']);
-      const res = currentValue[0] / 100;
-      setResult(res);
-    }
   };
 
   const posNeg = () => {

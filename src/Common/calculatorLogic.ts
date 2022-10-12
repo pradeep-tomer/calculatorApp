@@ -6,6 +6,8 @@ export const prioritizingOperator = (operator: string) => {
       return 1;
     case '*':
     case '/':
+      return 3;
+    case '%':
       return 2;
     default:
       return -1;
@@ -23,6 +25,8 @@ const calculatingValues = (num1: any, operator: string, num2: number) => {
       return num1 * num2;
     case '/':
       return num1 / num2;
+    case '%':
+      return (num1 * num2) / 100;
   }
 };
 
@@ -65,7 +69,9 @@ export const convertToReArrangedValue = (val: string) => {
   }
   return calculatingWithReArrangedValue(arrangedValues);
 };
-let calculatingWithReArrangedValue = function (val: string) {
+
+const calculatingWithReArrangedValue = function (val: string) {
+  var perviousOperator = '';
   var answer = [],
     n,
     result;
@@ -87,8 +93,14 @@ let calculatingWithReArrangedValue = function (val: string) {
         answer.pop();
         var num1 = answer[answer.length - 1];
         answer.pop();
-        result = calculatingValues(num1, val[i], num2);
-        answer.push(result);
+        if (perviousOperator == '/' && val[i] == '%') {
+          var temp: number = num1 * 100 * num2;
+          answer.push(temp);
+        } else {
+          perviousOperator = val[i];
+          result = calculatingValues(num1, val[i], num2);
+          answer.push(result);
+        }
       }
     }
   }

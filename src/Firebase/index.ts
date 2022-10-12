@@ -17,7 +17,6 @@ import {
   Register_Success,
   user_Info,
 } from '../Redux/types';
-import {month} from '../Common/month';
 import {loginType, registrationType, userType} from '../Common';
 import NavigationService from '../Navigation/NavigationService';
 import * as Storage from '../Services/asyncStoreConfig';
@@ -212,8 +211,8 @@ export const getNote = () => {
             const id = item?.id;
             const unix_time = item?.data()?.time;
             const dates = moment(unix_time).format('DD');
-            const months = month(JSON.parse(moment(unix_time).format('M')));
-            const date = dates + months;
+            const month = moment(unix_time).format('MMM');
+            const date = dates + month;
             data.push({id, ...item?.data(), date});
           });
           dispatch({
