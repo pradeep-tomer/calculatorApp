@@ -19,7 +19,7 @@ const StopwatchScreen = () => {
   const [deg, setDeg] = useState<number>(78);
 
   useEffect(() => {
-    setDeg(deg + 6);
+    setDeg(deg + -6);
   }, [time]);
 
   const Clear = () => {

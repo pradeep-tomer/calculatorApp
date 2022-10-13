@@ -11,7 +11,7 @@ export const styles = StyleSheet.create({
   },
   itemOpacity: {
     width: '46%',
-    height: hp(30),
+    // height: hp(30),
     marginHorizontal: wp(2),
     marginVertical: hp(0.8),
     padding: wp(1),

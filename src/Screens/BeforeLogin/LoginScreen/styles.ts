@@ -24,6 +24,7 @@ export const styles = StyleSheet.create({
     borderWidth: wp(0.3),
     height: hp(6),
     borderColor: '#E8E8E8',
+    marginTop: hp(0.4),
   },
   inputIcon: {
     height: hp(3),

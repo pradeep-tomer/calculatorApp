@@ -1,4 +1,3 @@
-//Setting up operators with priority
 export const prioritizingOperator = (operator: string) => {
   switch (operator) {
     case '+':
@@ -14,7 +13,6 @@ export const prioritizingOperator = (operator: string) => {
   }
 };
 
-//Calculating the values according to the operator
 const calculatingValues = (num1: any, operator: string, num2: number) => {
   switch (operator) {
     case '+':

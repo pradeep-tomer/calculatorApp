@@ -33,7 +33,7 @@ export interface noteFieldType {
   date?: string;
   id?: string;
   visit?: Array<string>;
-  time?: string|number;
+  time?: string | number;
 }
 
 export interface noteItemType {
@@ -41,9 +41,9 @@ export interface noteItemType {
     title?: string;
     description?: string;
     date?: string;
-    id:string;
-    time:string|number;
-    visit:Array<string>
+    id: string;
+    time: string | number;
+    visit: Array<string>;
   };
 }
 

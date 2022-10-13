@@ -9,8 +9,8 @@ import {styles} from './styles';
 import {convertToReArrangedValue} from '../../../Common/calculatorLogic';
 
 const CalculatorScreen = () => {
-  const [currentValue, setCurrentValue] = useState<any>([null]);
-  const [expression, setExpression] = useState('');
+  const [currentValue, setCurrentValue] = useState<any>([]);
+  const [expression, setExpression] = useState<string>('');
   const [result, setResult] = useState<number | null>(null);
 
   useEffect(() => {
@@ -123,6 +123,10 @@ const CalculatorScreen = () => {
   const percent = () => {
     if (!(currentValue.length == 0))
       setCurrentValue((prev: Array<string>) => [...prev, '%']);
+    if (currentValue.length == 1) {
+      const res = currentValue[0] / 100;
+      setResult(res);
+    }
   };
 
   const posNeg = () => {
@@ -135,16 +139,9 @@ const CalculatorScreen = () => {
         start={{x: 0.1, y: 0.75}}
         colors={['#DDA550', '#CA9F5D', '#BD9961']}
         style={{flex: 1, justifyContent: 'flex-end'}}>
-        <Text style={styles.valueText}>
-          {expression}
-          {/* {parseFloat(data?.currentValue).toLocaleString()} */}
-        </Text>
+        <Text style={styles.valueText}>{expression}</Text>
         {!(result == null) ? (
-          // <Text style={styles.valueText}>{result.toFixed(4)}</Text>
-          <Text style={styles.valueText}>
-            {/* {parseFloat(result).toLocaleString()} */}
-            {result.toLocaleString()}
-          </Text>
+          <Text style={styles.valueText}>{result.toLocaleString()}</Text>
         ) : null}
       </LinearGradient>
 
