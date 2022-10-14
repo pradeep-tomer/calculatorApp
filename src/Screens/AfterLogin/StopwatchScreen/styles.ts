@@ -9,6 +9,13 @@ export const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   },
+  stopwatchView: {
+    alignItems: 'center',
+    marginTop: hp(4),
+  },
+  scrollView:{
+    marginTop: hp(6)
+  },
   BtnText: {
     color: '#C58523',
     fontSize: hp(2.5),

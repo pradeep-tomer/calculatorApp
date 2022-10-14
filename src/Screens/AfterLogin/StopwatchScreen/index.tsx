@@ -19,7 +19,7 @@ const StopwatchScreen = () => {
   const [deg, setDeg] = useState<number>(78);
 
   useEffect(() => {
-    setDeg(deg + -6);
+    setDeg(deg + 6);
   }, [time]);
 
   const Clear = () => {
@@ -53,7 +53,7 @@ const StopwatchScreen = () => {
           ]}>
           <View style={styles.clockInnerView} />
         </View>
-        <View style={{alignItems: 'center', marginTop: hp(4)}}>
+        <View style={styles.stopwatchView}>
           <Stopwatch
             laps
             start={isStopwatchStart}
@@ -64,7 +64,7 @@ const StopwatchScreen = () => {
             }}
           />
         </View>
-        <ScrollView style={{marginTop: hp(6)}}>
+        <ScrollView style={styles.scrollView}>
           {lapRecord.map((item: lapDataType, index: number) => {
             return (
               <View key={index} style={styles.lapView}>

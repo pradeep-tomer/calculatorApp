@@ -6,5 +6,6 @@ export const passwordEyesHide = require('../Assets/Images/passwordEyesHide.png')
 export const select = require('../Assets/Images/select.png');
 export const square = require('../Assets/Images/square.png');
 export const Google = require('../Assets/Images/Google.png');
+export const Facebook = require('../Assets/Images/facebook.png');
 export const User = require('../Assets/Images/User.png');
 export const add = require('../Assets/Images/add.png');

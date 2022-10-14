@@ -20,6 +20,7 @@ import {
 import {loginType, registrationType, userType} from '../Common';
 import NavigationService from '../Navigation/NavigationService';
 import * as Storage from '../Services/asyncStoreConfig';
+import { FBLogout } from '../Services/facebook';
 
 export const registration = (data: registrationType) => {
   return async (dispatch: any) => {
@@ -143,11 +144,13 @@ export const forgotPassword = (email: string) => {
   };
 };
 
+
 export const signOut = (data: userType) => {
   const {uid, type} = data;
 
   return async (dispatch: any) => {
     try {
+      FBLogout()
       if (type == 1) {
         auth().signOut();
         updateUser(0, uid);

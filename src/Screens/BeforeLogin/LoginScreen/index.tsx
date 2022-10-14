@@ -12,6 +12,7 @@ import {EditText} from '../../../Components/TextInput';
 import {
   door,
   Email,
+  Facebook,
   Google,
   passwordEyes,
   passwordEyesHide,
@@ -23,6 +24,7 @@ import {login} from '../../../Firebase';
 import {Loader} from '../../../Components/Loader';
 import {Login_Failure} from '../../../Redux/types';
 import {googleAction} from '../../../Redux/Actions/loginAction';
+import {facebookLogin} from '../../../Services/facebook';
 
 const LoginScreen = () => {
   const navigation = useNavigation<any>();
@@ -46,9 +48,13 @@ const LoginScreen = () => {
     }
   };
 
-  const googleLogin = () => {
+  const google = () => {
     dispatch({type: Login_Failure, payload: true});
     dispatch(googleAction());
+  };
+
+  const facebook = () => {
+    facebookLogin();
   };
 
   return (
@@ -119,12 +125,8 @@ const LoginScreen = () => {
           <View style={styles.loginWithLine} />
         </View>
         <View style={styles.socialBtnView}>
-          <SocialButton
-            style={{flex: 1}}
-            onPress={googleLogin}
-            title="Google"
-            icon={Google}
-          />
+          <SocialButton onPress={google} title="Google" icon={Google} />
+          <SocialButton onPress={facebook} title="Facebook" icon={Facebook} />
         </View>
       </View>
 
